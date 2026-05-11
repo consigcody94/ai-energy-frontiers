@@ -260,6 +260,53 @@ plotted against published experimental data. Validates that the
 vacuum-physics foundation of this subproject is mainstream
 textbook physics, not speculation.
 
+## Realistic experiment simulation
+
+`estimate.py` gives the steady-state power output. [`realistic_simulation.py`](realistic_simulation.py) pushes the model into a full lab-experiment simulation, adding:
+
+1. **Maxwell-Boltzmann gas kinetics** — cesium atoms enter the cavity with a thermal velocity distribution at the gas temperature. Mean speed at 400 K is ~252 m/s.
+2. **Finite transit time × orbital relaxation rate** — the SED orbital relaxes toward its cavity-equilibrium value with rate γ. If γ·t_transit << 1, the atom leaves before fully relaxing and releases only a fraction of the steady-state energy. The simulator estimates γ from a heuristic SED-style argument (Larmor rate × fractional ZPF suppression at the orbital frequency).
+3. **Cryogenic bolometer noise model** — four detector classes (thermopile → SQUID-TES) with realistic noise-equivalent-power (NEP) values. We compute SNR as a function of integration time and time-to-5σ-detection.
+
+### Atom transit dynamics
+
+![Transit dynamics](transit_dynamics.png)
+
+**Left panel:** per-atom energy release vs atom speed for several cavity gaps (1 cm long cavity, f_couple = 1).
+- All four curves are flat across the thermal speed range. The relaxation timescale 1/γ ≈ 10 ns is much shorter than the transit time (40 µs at 252 m/s through 1 cm), so atoms equilibrate fully regardless of how fast they're moving.
+- The vertical gray line marks the mean Cs speed at 400 K.
+
+**Right panel:** steady-state output power vs Cs mass flow at two gaps. Linear in flow — no transit-time bottleneck — confirming that flow-throughput-limited regime dominates.
+
+### Bolometer SNR vs integration time
+
+![SNR vs time](snr_vs_time.png)
+
+**Left:** SNR vs integration time at a fixed 1 fW signal, for four detector classes.
+- A room-temp thermopile (NEP = 10⁻⁹ W/√Hz) never gets above the 5σ line.
+- SQUID-coupled TES (NEP = 10⁻¹⁹ W/√Hz) hits 5σ in a single second at 1 fW.
+
+**Right:** with the SQUID-TES detector, how long to detect signals of different size?
+- 1 pW: detectable instantly.
+- 1 fW: detectable in seconds.
+- 1 aW: ~hours.
+- 1 zW (10⁻²¹ W): a year of integration won't get you there — physically below SED itself.
+
+### Experimental runtime to 5σ detection
+
+![Experiment runtime](experiment_runtime.png)
+
+The big-picture experimental question: **how long does the SED Casimir experiment have to run before it claims a discovery (or sets a clean upper bound)?**
+
+For SQUID-TES detection with 1 mg/s Cs flow at four cavity gaps, runtime to 5σ vs f_couple:
+
+- **At 10 nm gap** (best buildable case): even f_couple = 10⁻⁶ gives a microsecond-scale detection time. The experiment is *practically instantaneous* at any plausible f_couple.
+- **At 100 nm gap:** the experiment takes a few seconds for f_couple ≥ 10⁻⁴, hours for 10⁻⁶, months for 10⁻⁸.
+- **At 300 nm gap:** runs over a year if f_couple < 10⁻⁴. Don't use 300 nm cavities.
+- The **1-year red dashed line** is the practical patience limit.
+
+**Practical conclusion from this plot:** at the smallest fabrication-achievable gaps (10–30 nm) with the best bolometer (SQUID-TES), the experiment **either gives a detection within hours or yields an unambiguous null**. There is no "we ran for a year and saw nothing because we were too patient" regime. The decisive answer is reachable.
+
 ## What f_couple is and why it's the make-or-break
 
 The dimensionless coupling fraction `f_couple` is the unknown

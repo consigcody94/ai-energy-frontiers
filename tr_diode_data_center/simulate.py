@@ -258,7 +258,10 @@ def main():
     print("\n[4] Generating spectral plot...")
     plot_spectra(out_path="tr_diode_data_center/spectra.png")
 
-    print("\nDone. See protocol.md for the wet-lab build path.")
+    print("\nDone.")
+    print("  Run `python plots.py` for the heatmap/MC/ceiling figures.")
+    print("  Run `python realistic_simulation.py` for the 8760-hour annual sim.")
+    print("  See protocol.md for the wet-lab build path.")
 
 
 if __name__ == "__main__":

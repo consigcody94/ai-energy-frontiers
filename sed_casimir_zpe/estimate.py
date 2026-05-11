@@ -210,8 +210,12 @@ def main():
     print("      experiment in the whole repo. Worth doing for science")
     print("      regardless of energy implications.")
 
-    print("\n[5] Generating plot...")
+    print("\n[5] Generating envelope plot...")
     plot_envelope(out_path="sed_casimir_zpe/envelope.png")
+    print("  Run `python plots.py` for casimir_force / power_vs_gap /")
+    print("    parameter_space figures.")
+    print("  Run `python realistic_simulation.py` for transit-dynamics +")
+    print("    bolometer noise simulation.")
 
 
 def plot_envelope(out_path="envelope.png"):

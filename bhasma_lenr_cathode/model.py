@@ -241,6 +241,10 @@ def main():
 
     print("\n[5] Plotting...")
     plot_enhancement(out_path="bhasma_lenr_cathode/enhancement.png")
+    print("  Run `python plots.py` for mechanism_split / sensitivity_band /")
+    print("    puta_progression figures.")
+    print("  Run `python realistic_simulation.py` for log-normal +")
+    print("    Fickian diffusion + Bosch-Hale neutron-rate simulation.")
 
 
 def plot_enhancement(out_path="enhancement.png"):

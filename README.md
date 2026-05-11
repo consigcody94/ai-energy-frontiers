@@ -22,9 +22,10 @@ wet-lab protocol for someone who has the apparatus.
 5. [Approach 2 — SED Casimir-cavity ZPE](#5-approach-2--sed-casimir-cavity-zero-point-energy)
 6. [Approach 3 — Bhasma LENR cathodes](#6-approach-3--bhasma-prepared-lenr-cathodes)
 7. [Testing methodology](#7-testing-methodology)
-8. [How to read the code](#8-how-to-read-the-code)
-9. [Honest assessment](#9-honest-assessment)
-10. [Literature](#10-literature)
+8. [Deep time-domain simulations](#8-deep-time-domain-simulations)
+9. [How to read the code](#9-how-to-read-the-code)
+10. [Honest assessment](#10-honest-assessment)
+11. [Literature](#11-literature)
 
 ---
 
@@ -542,7 +543,64 @@ exist precisely to catch it.
 
 ---
 
-## 8. How to read the code
+## 8. Deep time-domain simulations
+
+The `*/simulate.py`, `*/estimate.py`, and `*/model.py` files give the **steady-state physics answer**. Each subproject also ships a `realistic_simulation.py` that pushes the model into the time domain with realistic operational physics. This is "almost real life" — the level of detail an experimentalist or plant engineer would need to plan a real measurement campaign.
+
+### TR diode: 8760-hour annual simulation
+
+[`tr_diode_data_center/realistic_simulation.py`](tr_diode_data_center/realistic_simulation.py) runs an hour-by-hour simulation over a full year:
+
+- **Synthesized weather:** seasonal + diurnal air-temperature swing, lagged dew-point, beta-distributed cloud cover with 3-day autocorrelation, three climate presets (arid, temperate, humid).
+- **Berdahl-Martin effective-sky-temperature model:** the standard atmospheric-radiation engineering formula relating air temperature, dew point, and cloud cover to the effective T_sky the diode actually sees.
+- **Single-diode I-V model:** full implicit Shockley equation solved for V_mp at every step.
+
+![Annual yield by climate](tr_diode_data_center/realistic_annual.png)
+![Diurnal profile arid](tr_diode_data_center/realistic_diurnal.png)
+![Realistic I-V curves](tr_diode_data_center/realistic_iv_curves.png)
+
+Static model predicts ~134 MWh/yr; the realistic simulation predicts **190 MWh (arid) / 198 MWh (temperate) / 142 MWh (humid)** — the static model under-counts because it averages over duty cycle while the realistic sim integrates the actual operating distribution.
+
+### SED Casimir: transit dynamics + bolometer noise
+
+[`sed_casimir_zpe/realistic_simulation.py`](sed_casimir_zpe/realistic_simulation.py) takes the SED model into a full lab-experiment simulation:
+
+- **Maxwell-Boltzmann gas kinetics:** sample 20,000 atom speeds from the thermal distribution at the gas temperature; integrate per-atom energy release over the distribution.
+- **Finite orbital-relaxation rate:** the SED orbital relaxes toward cavity equilibrium with rate γ ~ 10⁸ /s. Transit times across a 1 cm cavity are ~40 µs at 252 m/s — much longer than 1/γ, so atoms fully relax.
+- **Cryogenic bolometer noise model:** four detector classes (thermopile → SQUID-TES @ NEP = 10⁻¹⁹ W/√Hz), SNR vs integration time, time-to-5σ-detection curves.
+
+![Transit dynamics](sed_casimir_zpe/transit_dynamics.png)
+![SNR vs time](sed_casimir_zpe/snr_vs_time.png)
+![Experiment runtime](sed_casimir_zpe/experiment_runtime.png)
+
+The big result: **at the smallest fabrication-achievable gaps (10 nm) with SQUID-TES detection, the experiment either gives a 5σ signal in *hours* or yields an unambiguous null**. There is no "wait a year" regime. The decisive answer is reachable.
+
+### Bhasma LENR: diffusion + Bosch-Hale + neutron rate
+
+[`bhasma_lenr_cathode/realistic_simulation.py`](bhasma_lenr_cathode/realistic_simulation.py) pushes the bhasma-LENR hypothesis into a full reactor-scale prediction:
+
+- **Log-normal particle distributions:** sample 10,000 particles per preparation grade with literature-reported geometric standard deviations; compute mass-weighted enhancement (large particles dominate the Pd-atom count).
+- **Fickian diffusion solver:** classical Crank (1975) series solution for D loading in spherical particles. 10 nm particles equilibrate in milliseconds; foils take hours.
+- **Bosch-Hale D-D cross section:** standard parameterization for D(d,n)³He folded with the UBC 10 keV beam to predict absolute neutron emission rates.
+
+![Particle distributions](bhasma_lenr_cathode/particle_distribution.png)
+![D loading dynamics](bhasma_lenr_cathode/d_loading_dynamics.png)
+![Bosch-Hale cross section](bhasma_lenr_cathode/bosch_hale_cross_section.png)
+![Predicted neutron rate](bhasma_lenr_cathode/neutron_rate.png)
+
+The predicted absolute rates (10⁶–10⁷ n/s) land within an order of magnitude of UBC's reported absolute rates, suggesting the forward model is calibrated to the right scale. Bhasma cathodes reach steady state in seconds; foils in minutes-to-hours. That kinetic signature is itself a falsifiable prediction.
+
+### Running the realistic sims
+
+```bash
+python tr_diode_data_center/realistic_simulation.py
+python sed_casimir_zpe/realistic_simulation.py
+python bhasma_lenr_cathode/realistic_simulation.py
+```
+
+Each is self-contained and reproduces its own plots from scratch.
+
+## 9. How to read the code
 
 ```
 ai-energy-frontiers/
@@ -559,6 +617,7 @@ ai-energy-frontiers/
 │   ├── README.md                    # subproject deep dive
 │   ├── simulate.py                  # main physics model + console report
 │   ├── plots.py                     # heatmap, MC histogram, ceiling chart
+│   ├── realistic_simulation.py      # 8760-hour annual sim with weather + I-V
 │   ├── validate.py                  # 12 tests
 │   ├── protocol.md                  # wet-lab build path
 │   └── *.png                        # generated figures
@@ -567,6 +626,7 @@ ai-energy-frontiers/
 │   ├── README.md
 │   ├── estimate.py
 │   ├── plots.py
+│   ├── realistic_simulation.py      # transit dynamics + bolometer noise
 │   ├── validate.py
 │   ├── protocol.md
 │   └── *.png
@@ -575,6 +635,7 @@ ai-energy-frontiers/
     ├── README.md
     ├── model.py
     ├── plots.py
+    ├── realistic_simulation.py      # log-normal sizes + D-diffusion + Bosch-Hale
     ├── validate.py
     ├── protocol.md
     └── *.png
@@ -595,6 +656,11 @@ python tr_diode_data_center/plots.py
 python sed_casimir_zpe/plots.py
 python bhasma_lenr_cathode/plots.py
 python comparison.py
+
+# Run the time-domain "almost real life" simulations
+python tr_diode_data_center/realistic_simulation.py
+python sed_casimir_zpe/realistic_simulation.py
+python bhasma_lenr_cathode/realistic_simulation.py
 
 # Run the validation suite
 python validate_all.py

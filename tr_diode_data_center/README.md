@@ -270,6 +270,66 @@ The figure makes the engineering challenge explicit. There is a real
 60% recovery available from the physics. We currently capture
 1/200th of that. The device-engineering work has 200× headroom.
 
+## Realistic hour-by-hour annual simulation
+
+`simulate.py` gives the steady-state physics answer. [`realistic_simulation.py`](realistic_simulation.py) pushes the model into the time domain with synthesized weather data over 8760 hours of a full year.
+
+What it adds:
+
+1. **Synthesized realistic weather** — diurnal temperature swing with seasonal modulation, dew-point lagged behind air temperature, beta-distributed cloud cover, 3-day autocorrelated weather noise. Three climate presets: arid (Phoenix/Atacama), temperate (Chicago/Frankfurt), humid (Miami/Mumbai).
+2. **Berdahl-Martin effective sky-temperature model** — the standard atmospheric-radiation engineering formula:
+
+   ```
+   ε_clear  = 0.711 + 0.56 (T_dp / 100) + 0.73 (T_dp / 100)²
+   ε_total  = ε_clear + (1 − ε_clear) · cloud_fraction · 0.85
+   T_sky    = T_air · ε_total^(1/4)
+   ```
+
+3. **Single-diode I-V model** — solves the full implicit Shockley equation at each step to find the actual electrical operating point:
+
+   ```
+   I(V) = I_L − I₀ (exp((V + I·R_s) / (n·V_t)) − 1) − (V + I·R_s) / R_sh
+   ```
+
+   instead of assuming "constant 85% of optical limit."
+
+### Realistic annual yield by climate
+
+![Annual yield](realistic_annual.png)
+
+Hour-by-hour 8760-step simulation aggregated to daily yield (top) and monthly yield (bottom). Three climate runs side-by-side.
+
+**Reading guide:**
+- **Arid (blue):** strong, consistent yield. Long clear nights, dry air → sky temperature drops well below ambient. Summer peak from longer warm exhaust hours; modest winter dip.
+- **Temperate (orange):** comparable annual yield but with a more pronounced summer/winter swing. Cloud cover reduces winter performance.
+- **Humid (green):** ~30% reduction. Humidity raises dew-point → raises sky emissivity → narrows the radiative ΔT. Mumbai delivers about ⅔ of what Phoenix delivers.
+
+Static-model estimate from `simulate.py`: ~134 MWh/year (one-shot). Realistic simulation: 142–198 MWh/year depending on climate. The static model under-predicts because it averages over duty cycle, while the realistic model captures the actual operating distribution.
+
+### Day-in-the-life: diurnal profile
+
+![Diurnal profile](realistic_diurnal.png)
+
+Two single-day windows from the arid simulation: Jan 1 (top) and Jul 1 (bottom).
+
+For each day:
+- **Red line:** ambient air temperature
+- **Blue line:** effective sky temperature from Berdahl-Martin (dew-point + cloud)
+- **Green filled area:** instantaneous power output (right axis)
+
+**What this tells you:**
+- TR diode output kicks in immediately at sunset when solar load drops, peaks around 02:00–04:00 when sky temperature bottoms out.
+- The summer day has a longer operating window but a higher sky temperature (warmer night), so the peak output is comparable to winter.
+- Winter clear-sky nights give the largest instantaneous output — but the operating hours are concentrated in the cold period.
+
+### Single-diode I-V at three operating points
+
+![I-V curves](realistic_iv_curves.png)
+
+The full I-V curves at three nighttime conditions (cold/clear, mild/moderate, warm/cloudy). Circles mark the maximum-power point. Each scenario has the same emitter temperature (325 K) but different effective sky temperatures.
+
+**The maximum power point's V_mp is small** (50–100 mV) because the photon-driven current is small. This makes series-resistance losses critically important in scale-up — a low-R_s contact design is essential.
+
 ## Parameter sensitivity
 
 The console report from `python simulate.py` produces a sensitivity
