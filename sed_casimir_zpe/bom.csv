@@ -1,0 +1,32 @@
+category,part,vendor,part_number,qty,unit_price_usd,total_usd,notes
+cryostat,dry dilution refrigerator with 10 mK base,Oxford Instruments / BlueFors,Triton 200 or LD250,1,275000,275000,RENT FROM UNIVERSITY FACILITY if possible
+bolometer,SQUID-coupled TES bolometer 50 mK,SuperFab / NIST PML / Goddard,custom 5x5 mm Au-Bi on Si3N4,1,55000,55000,NEP 1e-19 W/sqrt(Hz)
+casimir_stack,Custom 50-wafer Casimir cavity stack 30 nm gap,NIST CNST or university nanofab,custom,1,25000,25000,4-6 week microfab turn
+vacuum_chamber,6 inch CF cube with 6 ports,Kurt J Lesker,VEDCG600AAE,1,4500,4500,316L SS construction
+turbo_pump,turbomolecular pump 80 L/s,Pfeiffer Vacuum,HiPace 80,1,7800,7800,
+backing_pump,scroll pump 1.6 m3/h,Pfeiffer Vacuum,MVP 020-3,1,4200,4200,oil-free for Cs compatibility
+ion_gauge,cold cathode + dual hot cathode gauge,Pfeiffer,IKR 270 + IMG-300,1,3200,3200,
+cs_dispenser,SAES alkali metal dispenser,SAES Getters,Cs/NF/3.4/12 FT10+10,2,300,600,one operational + one spare
+peek_diverter,PEEK rotary diverter valve 0.1-10 Hz,Valco Instruments,custom,1,1800,1800,modulates beam between cavity and reference arm
+gas_apertures,laser-machined 0.5 mm and 0.3 mm pinhole,Lenox Laser,custom,2,400,800,beam-defining apertures
+qcm_balance,quartz crystal microbalance flow monitor,Inficon,SQM-160,1,4500,4500,integrated Cs flux calibration
+xe_valve,leak valve for Xe control species,Edwards,80130-LEAK,1,1900,1900,
+xe_cylinder,research grade xenon,Praxair / Air Liquide,UHP Xe 1 m3,1,800,800,
+mu_metal,mu-metal magnetic shield enclosure,Magnetic Shield Corp,custom 100x100x150 mm,2,1200,2400,SQUID environment
+lock_in,lock-in amplifier 500 kHz,Stanford Research / Zurich,SR830 or MFLI,1,11000,11000,
+squid_readout,SQUID readout electronics,Magnicon / Stanford,XXF-1,1,8500,8500,
+chopper,optical/mechanical chopper 1 Hz,Stanford Research,SR540,1,1900,1900,beam modulation reference
+oscilloscope,4-ch oscilloscope 200 MHz,Keysight,DSOX1204G,1,2500,2500,debugging + signal inspection
+data_acquisition,24-bit DAQ,National Instruments,USB-4431,1,2800,2800,bolometer + reference channels
+opto_isolators,optical isolation for ground loops,Thorlabs,FBT610A,4,250,1000,
+optical_table,vibration-isolated table,Thorlabs / Newport,T1224A,1,8500,8500,optional but improves SNR
+custom_machining,plates brackets and mounts,internal,various,1,5000,5000,
+cabling_misc,coax cabling connectors fasteners,Pasternack / McMaster,various,1,3000,3000,
+control_pc,workstation for DAQ control,Dell,Precision 5860,1,3500,3500,
+software,Igor Pro analysis license,WaveMetrics,Igor Pro 9 site,1,1800,1800,or Python+numpy free
+,,,,,subtotal:,432200,parts only
+labor_postdoc,postdoc 6 months,internal,salary + benefits,0.5,180000,90000,
+labor_grad,graduate student 6 months,internal,stipend,0.5,30000,15000,
+labor_nanofab,microfab tech for Casimir stack,internal contract,outside vendor,1,15000,15000,outsourced microfab
+,,,,,grand_total:,552200,parts + labor
+,,,,,without_dil_fridge:,277200,if cryostat is shared facility

@@ -1,0 +1,48 @@
+stage,category,part,vendor,part_number,qty,unit_price_usd,total_usd,notes
+stage1,furnace,programmable muffle furnace 1100 C with Ar inlet,MTI Corporation / Carbolite,KSL-1700X-A2,1,9500,9500,SiC elements PID controlled
+stage1,crucibles,high-density alumina crucible 200 mL,Coors / CoorsTek,AD-998,4,180,720,
+stage1,mortar,250 mL agate mortar and pestle,Cole-Parmer,EW-39062-40,1,180,180,for bhavana
+stage1,ball_mill,programmable ball mill 1 L,Across International,VFP-9-AC,1,6500,6500,mechanized bhavana option
+stage1,press,30 ton hydraulic press 30 mm die,Carver Inc,Carver model M,1,3800,3800,
+stage1,die_set,hardened steel die 10 mm dia,Across International,DPM-D10,2,450,900,for cathode pellet pressing
+stage1,glassware,1 L round-bottom flask + condenser + heating mantle,Fisher Scientific,various,1,800,800,for shodhana acid step
+stage1,balance,triple-beam balance 200 g 0.01 g,Ohaus,Pioneer PA214,1,650,650,
+stage1,gas_panel,argon mass flow controller 100 sccm,MKS,1179B-13CR1AV,1,1800,1800,furnace purge
+stage1,pd_starting_material,Pd sponge 99.95%,Sigma-Aldrich,205826,200 g,55,11000,200 g supports many batches with re-use
+stage1,acids,aqua regia precursors HCl HNO3,Fisher Scientific,A144 + A509,3,80,240,shodhana
+stage1,reagents,LiOH NaOH aloe vera juice amla pulp,various,various,1,200,200,for bhavana
+stage1,hg_optional,metallic mercury research grade,Sigma-Aldrich,294594,50 g,180,180,for optional parada-marana
+stage1,characterization,XRD service quarterly access,shared university facility,Bruker D8 access fee,3 months,1200,3600,
+stage1,characterization,TEM service quarterly access,shared university facility,FEI Tecnai access fee,3 months,1500,4500,
+stage1,characterization,BET surface area service,shared university facility,Micromeritics TriStar access fee,12 samples,150,1800,
+stage1,characterization,ICP-MS service for purity + Hg residual,shared university facility,Agilent 7900 access fee,6 samples,300,1800,
+,stage1_subtotal:,,,,,,52170,
+stage2,vacuum_chamber,6 inch CF cross UHV chamber,Kurt J Lesker,VEDCG600AAE,1,4500,4500,
+stage2,turbo_pump,turbomolecular pump 80 L/s,Pfeiffer Vacuum,HiPace 80,1,7800,7800,
+stage2,scroll_pump,dry scroll backing pump,Pfeiffer,MVP 020-3,1,4200,4200,
+stage2,gauges,UHV gauge set,Pfeiffer,IKR + IMG,1,3200,3200,
+stage2,plasma_source,RF inductively coupled plasma source 13.56 MHz,MKS Instruments,SmartMatch IPS,1,18000,18000,for D+ ion generation
+stage2,einzel_lens,Einzel lens ion optics 1-20 kV,Kimball Physics,custom,1,5500,5500,beam acceleration
+stage2,d2_gas,deuterium gas research grade,Sigma-Aldrich / Praxair,99.999% D2,1 L,250,250,
+stage2,d2o,heavy water 99.9 atom percent,Sigma-Aldrich / Cambridge Isotope,151882,1 L,420,420,
+stage2,liod,lithium deuteroxide,Cambridge Isotope,DLM-49,25 g,180,180,
+stage2,electrochem_cell,custom PTFE electrochem cell 5 mL,internal machine shop,custom,1,800,800,
+stage2,counter_electrode,Pt mesh 5 cm2,Sigma-Aldrich,267074,1,180,180,
+stage2,ref_electrode,Ag/AgCl reference electrode,Bioanalytical Systems,RE-5B,1,180,180,
+stage2,potentiostat,programmable potentiostat,BioLogic,SP-150e,1,9500,9500,electrochem loading control
+stage2,he3_tubes,He-3 proportional counter tubes,Reuter-Stokes / LND,LND-2526,4,8500,34000,calibrated against Cf-252
+stage2,preamps,charge-sensitive preamps,Mesytec,MPR-1,4,1100,4400,
+stage2,shaping_amps,quad shaping amplifier,Mesytec,MSCF-16,1,3800,3800,
+stage2,mca,multichannel analyzer,CAEN,N1145,1,8500,8500,
+stage2,moderator,high density polyethylene moderator block,custom machined,5 cm thick,1,1200,1200,thermalize fast neutrons
+stage2,shielding,borated polyethylene + Pb shielding,Reactor Experiments Inc,custom 30 cm BPE + 5 cm Pb,1,4500,4500,gamma + neutron background
+stage2,cf252_source,Cf-252 neutron calibration source 1 microCurie,Eckert and Ziegler,sealed source,1,8000,8000,for absolute neutron efficiency calibration
+stage2,custom_machining,cathode mount, feedthroughs, fixtures,internal machine shop,various,1,4500,4500,
+stage2,daq_pc,workstation + ROOT software,Dell + free,Precision 5860 + ROOT,1,3500,3500,
+,stage2_subtotal:,,,,,,124620,
+,labor,grad student stipend 3 months,internal,stipend + benefits,0.25,30000,7500,
+,labor,postdoc 1 month,internal,salary,0.08,180000,15000,oversight + analysis
+,labor,machine shop time,internal,fab labor,40 hours,150,6000,custom fixtures
+,labor_subtotal:,,,,,,28500,
+,grand_total:,,,,,,205290,parts + labor
+,note:,,,,,,,with shared accelerator + neutron array access at university: ~$80000

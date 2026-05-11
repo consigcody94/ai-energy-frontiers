@@ -1,0 +1,21 @@
+category,part,vendor,part_number,qty_per_panel,unit_price_usd,total_per_panel_usd,notes
+photodiode,MCT 100x100 LWIR array (Hg0.8Cd0.2Te),Hamamatsu / Vigo / Teledyne,custom or G14045-2DP class,1,185.00,185.00,~$185 in volume; 12.4 um cutoff matches 8-13 um window
+photodiode_carrier,FR-4 PCB carrier with wire-bond pads,JLCPCB / PCBWay,custom 100x100 grid,1,12.00,12.00,4-layer for power+sense routing
+photodiode_interconnect,gold wire bonds,Hesse Mechatronics,Au wire 25 um,10000 bonds,0.0003,3.00,bulk wire-bond labor included separately
+IR_window,HDPE radiator film (aluminized),Innovative Insolation / DIY,custom 1 m x 1 m,1,15.00,15.00,Replace every 4 years; ZnSe AR alternative is ~$3000/m^2
+IR_window_seal,silicone gasket + frame channel,McMaster-Carr,9560K71 + custom,1 m perimeter,10.00,10.00,N2 purge port included
+cold_plate,Cu C11000 polished plate 1 m x 1 m x 6 mm,McMaster-Carr,8975K22 or stocked from local supplier,1,28.00,28.00,polished top for IR coupling
+hot_plate,Cu C11000 plate 1 m x 1 m x 6 mm,McMaster-Carr,8975K22,1,28.00,28.00,
+heat_pipe,Cu-water heat pipe 8 mm OD x 600 mm,Wakefield Vette or local,custom,4,14.00,56.00,200 W combined transport capacity
+aerogel,silica aerogel blanket 15 mm,Aspen Aerogels,Cryogel Z or Pyrogel XT,1 m^2,18.00,18.00,k=0.018 W/(m K)
+frame_extrusion,6061-T6 Al box extrusion 30x50 mm,80/20 Inc or local,1010 series equivalent,4 m total,3.50,14.00,corner brackets included
+frame_corners,Al die-cast corner bracket,80/20 Inc,2010,4,4.00,16.00,
+mounting_standoff,M8 x 30 mm stainless standoff,McMaster-Carr,98011A040,4,1.50,6.00,for roof-rail attachment
+mppt_controller,DC-DC MPPT controller,Texas Instruments,BQ24650RVAR,1,18.00,18.00,or LT8490 from Analog Devices
+inverter_share,microinverter (1/8 of unit per panel),Enphase / Hoymiles,IQ8M-72-2-US,0.125,120.00,15.00,one inverter per 8 panel string
+balance_of_system,wiring + connectors + fuses,various,various,1,15.00,15.00,
+desiccator,molecular sieve cartridge,Drierite,8 MESH,0.5,4.00,2.00,replaceable
+,,,,,subtotal:,426.00,parts only
+labor_assembly,robotic + human assembly,internal,8 person-hours @ $50/hr,1,50.00,50.00,assembly + QA per panel
+labor_install,roof installation,internal,30 min/panel @ $100/hr,1,50.00,50.00,
+,,,,,grand_total:,526.00,parts + labor per panel

@@ -24,9 +24,10 @@ wet-lab protocol for someone who has the apparatus.
 7. [Testing methodology](#7-testing-methodology)
 8. [Deep time-domain simulations](#8-deep-time-domain-simulations)
 9. [Real-world data integration](#9-real-world-data-integration)
-10. [How to read the code](#10-how-to-read-the-code)
-11. [Honest assessment](#11-honest-assessment)
-12. [Literature](#12-literature)
+10. [Physical designs](#10-physical-designs)
+11. [How to read the code](#11-how-to-read-the-code)
+12. [Honest assessment](#12-honest-assessment)
+13. [Literature](#13-literature)
 
 ---
 
@@ -666,7 +667,60 @@ python bhasma_lenr_cathode/realistic_data.py
 python sed_casimir_zpe/realistic_data.py
 ```
 
-## 10. How to read the code
+## 10. Physical designs
+
+Beyond simulation, each subproject now has a **manufacturable hardware design**: mechanical layout, real materials with vendor part numbers, electrical architecture, costs, and a procedure to build and operate the apparatus.
+
+### TR diode panel  ─  buildable, scalable
+
+[`tr_diode_data_center/physical_design.md`](tr_diode_data_center/physical_design.md) + [`bom.csv`](tr_diode_data_center/bom.csv)
+
+A 1 m × 1 m × 65 mm panel weighing 22 kg. Layered stack: ZnSe/HDPE IR window → MCT 100 × 100 photodiode array (Hg₀.₈Cd₀.₂Te, 12.4 µm cutoff) → Cu cold-plate → silica aerogel insulator → Cu hot-plate → 4× Cu-water heat pipes coupling to the hot-aisle exhaust duct. Per-panel MPPT controller (TI BQ24650), 8-panel strings at 200 V DC, microinverter to grid-tie 240 VAC behind the meter.
+
+![Panel cross-section](tr_diode_data_center/panel_cross_section.png)
+![Roof array layout](tr_diode_data_center/roof_array_layout.png)
+![Wiring diagram](tr_diode_data_center/wiring_diagram.png)
+
+**Costs:** $526 per panel installed (parts + labor). 80,000 panels on a 10 ha hyperscale roof: **~$42 M CapEx**, delivering ~136 MWh/year (0.3% facility offset). **Not economic at today's MCT prices** — the device cost must fall ~10× to make the project bankable. The path exists (thermal imaging arrays are mass-produced and falling in cost) but is not there yet. **Pilot-scale (10 panels) is achievable for ~$8 k** — that's the right next step.
+
+### SED Casimir-cavity experiment  ─  decisive, university-scale
+
+[`sed_casimir_zpe/physical_design.md`](sed_casimir_zpe/physical_design.md) + [`bom.csv`](sed_casimir_zpe/bom.csv)
+
+A tabletop apparatus, ~2 m² footprint. SAES cesium dispenser → beam-defining 0.5 mm pinhole → PEEK rotary diverter modulating between **a 50-layer 30-nm-gap Casimir stack** and an identical no-plates reference cell → exhaust into a SQUID-coupled TES bolometer at 50 mK (NEP = 10⁻¹⁹ W/√Hz) in a dilution refrigerator. Lock-in detection at 1 Hz beam-chop frequency.
+
+![Apparatus layout](sed_casimir_zpe/apparatus_layout.png)
+![Cavity layer zoom](sed_casimir_zpe/cavity_layer_zoom.png)
+
+**Costs:** ~$510 k with a new dilution refrigerator, **~$200 k if a university dil-fridge facility is shared**. The Casimir-stack microfabrication is a 4–6 week NIST/university nanofab job (~$25 k). The most expensive line is the cryostat.
+
+The experiment runs in a 6-month campaign. The decisive outputs are: (a) signal scales as 1/d⁴ across 30 nm and 100 nm gaps, (b) signal vanishes for Xe (closed-shell control) vs Cs (high-polarizability). Either a clean detection or a clean null is a *Physical Review Letters* paper.
+
+### Bhasma-LENR experiment  ─  two-stage, replicable
+
+[`bhasma_lenr_cathode/physical_design.md`](bhasma_lenr_cathode/physical_design.md) + [`bom.csv`](bhasma_lenr_cathode/bom.csv)
+
+**Stage 1: bhasma preparation reactor.** Programmable muffle furnace (1100 °C, Ar purge), agate mortar + ball mill for bhavana, 30-ton hydraulic press for cake pressing, alumina crucibles for the 60-cycle puta sequence. Optional parada-marana with Hg amalgamation + sublimation. XRD/TEM/BET checkpoints every 10 cycles. ~270 h of furnace time, ~12 weeks calendar.
+
+![Bhasma preparation flow](bhasma_lenr_cathode/bhasma_reactor.png)
+
+**Stage 2: UBC-style fusion-rate measurement.** Faithful reproduction of the Schenkel et al. *Nature* 644:640 (2025) apparatus — 6" CF UHV chamber, 13.56 MHz RF plasma source for D⁺ generation, Einzel-lens beam acceleration (1–20 keV), back-face electrochemical loading cell (D₂O + LiOD, Pt counter), 4× ³He proportional counter tubes in a HDPE moderator block calibrated against ²⁵²Cf.
+
+![Fusion apparatus](bhasma_lenr_cathode/fusion_apparatus.png)
+
+**Three-way cathode comparison:** rasashastra Pd-bhasma vs commercial Pd-black at matched BET surface area vs commercial Pd foil. Disentangles whether the boost is from raw surface area or from rasashastra-specific factors.
+
+**Costs:** ~$205 k total, **~$80 k with shared accelerator + neutron-detector facility**. A graduate student with a furnace + access to a benchtop accelerator beamline can run this in one semester.
+
+### Generating the schematics
+
+```bash
+python tr_diode_data_center/schematic.py
+python sed_casimir_zpe/schematic.py
+python bhasma_lenr_cathode/schematic.py
+```
+
+## 11. How to read the code
 
 ```
 ai-energy-frontiers/
@@ -688,26 +742,35 @@ ai-energy-frontiers/
 │   ├── weather_cache/               # cached ERA5 hourly responses (JSON)
 │   ├── validate.py                  # 12 tests
 │   ├── protocol.md                  # wet-lab build path
+│   ├── physical_design.md           # manufacturable hardware spec
+│   ├── bom.csv                      # bill of materials, vendor part numbers
+│   ├── schematic.py                 # generate cross-section + array + wiring diagrams
 │   └── *.png                        # generated figures
 │
 ├── sed_casimir_zpe/
 │   ├── README.md
 │   ├── estimate.py
 │   ├── plots.py
-│   ├── realistic_simulation.py      # transit dynamics + bolometer noise
-│   ├── realistic_data.py            # measured Casimir + NIST polariz + bolometer specs
+│   ├── realistic_simulation.py
+│   ├── realistic_data.py
 │   ├── validate.py
 │   ├── protocol.md
+│   ├── physical_design.md
+│   ├── bom.csv
+│   ├── schematic.py
 │   └── *.png
 │
 └── bhasma_lenr_cathode/
     ├── README.md
     ├── model.py
     ├── plots.py
-    ├── realistic_simulation.py      # log-normal sizes + D-diffusion + neutron rate
-    ├── realistic_data.py            # measured D-D cross sections (3 published papers)
+    ├── realistic_simulation.py
+    ├── realistic_data.py
     ├── validate.py
     ├── protocol.md
+    ├── physical_design.md
+    ├── bom.csv
+    ├── schematic.py
     └── *.png
 ```
 
