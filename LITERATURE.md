@@ -39,6 +39,20 @@ Primary sources cited across the three subprojects.
 - Avancha, K.M. *Technical Research Paper on Nikola Tesla's Wireless Power Transmission System.* SSRN 5067441 (Dec 2024). https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5067441
 - *Diurnal variations of atmospheric electric fields on fair weather days.* Sci. Reports (2025). https://www.nature.com/articles/s41598-025-89788-2
 
+## Bacterial neuromorphic substrate
+
+- Fu, T. et al. *Bioinspired bio-voltage memristors.* **Nature Communications 11, 1861 (2020).** https://www.nature.com/articles/s41467-020-15759-y — the core demonstration: Geobacter pilus memristors at 70-130 mV and 0.3-100 pJ/spike.
+- Lovley, D. R. *Geobacter Protein Nanowires.* *Frontiers in Microbiology* 13, 859307 (2022) — review of conductive pilus mechanism. https://www.frontiersin.org/articles/10.3389/fmicb.2022.859307
+- Davies, M. et al. *Loihi 2: A New Generation of Neuromorphic Computing.* IEEE Micro (2021) — silicon neuromorphic benchmark @ 23 pJ/spike.
+- Merolla, P. A. et al. *A million spiking-neuron integrated circuit with a scalable communication network and interface.* **Science** 345:668 (2014) — IBM TrueNorth.
+- Mayr, C. et al. *SpiNNaker 2: A 152M-neuron Network on Chip.* ISSCC (2024).
+- Pei, J. et al. *Towards artificial general intelligence with hybrid Tianjic chip architecture.* **Nature** 572:106 (2019) — Tianjic.
+- Pehle, C. et al. *The BrainScaleS-2 Accelerated Neuromorphic System.* *Front. Neurosci.* (2022).
+- NVIDIA H100 SXM datasheet (2023); B200 whitepaper (2024); MLPerf inference benchmarks.
+- AMD MI300X / Google TPU v5p / Cerebras WSE-3 vendor whitepapers (2024).
+- Schwerdtfeger, P. & Nagle, J. K. *2018 Table of static dipole polarizabilities of the neutral elements.* *Mol. Phys.* 117:1200 (2019) — atomic polarizability reference values.
+- Hooker, S. *The Hardware Lottery.* arXiv:2009.06489 (2020) — why substrate choice matters for what AI architectures get developed.
+
 ## Vaimanika Shastra (debunked, included for completeness)
 
 - Mukunda, H.S. et al. *A Critical Study of the Work "Vymanika Shastra".* Indian Institute of Science (1974). https://www.semanticscholar.org/paper/A-CRITICAL-STUDY-OF-THE-WORK-%E2%80%9C-VYMANIKA-SHASTRA-%E2%80%9D-Shastra/8dd2c0aea6e65a2df8baef82d51d65e6a92985c4

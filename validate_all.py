@@ -1,5 +1,5 @@
 """
-Run the validation suite for all three subprojects in sequence.
+Run the validation suite for all four subprojects in sequence.
 Exit non-zero if any subproject reports a failure.
 
 Usage:  python validate_all.py
@@ -14,6 +14,7 @@ SUBPROJECTS = [
     REPO / "tr_diode_data_center",
     REPO / "sed_casimir_zpe",
     REPO / "bhasma_lenr_cathode",
+    REPO / "bacterial_neuromorphic_substrate",
 ]
 
 

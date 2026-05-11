@@ -23,6 +23,7 @@ SUBPROJECTS = [
     REPO / "tr_diode_data_center",
     REPO / "sed_casimir_zpe",
     REPO / "bhasma_lenr_cathode",
+    REPO / "bacterial_neuromorphic_substrate",
 ]
 
 

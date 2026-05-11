@@ -1,0 +1,35 @@
+category,part,vendor,part_number,qty,unit_price_usd,total_usd,notes
+bioreactor,1 L jacketed glass fermenter,Eppendorf,DASGIP DG-1L,1,15000,15000,with temperature pH control
+bioreactor,anaerobic gas mixing manifold,Cole-Parmer,EW-12911-30,1,2800,2800,N2/CO2 80/20 mix for Geobacter
+bioreactor,peristaltic media feed pump,Watson-Marlow,323U,1,1800,1800,continuous media addition
+bioreactor,harvest centrifuge,Beckman,Avanti J-26 XPI,1,12000,12000,or shared facility access
+bioreactor,sterile media + reagents (1 year),Sigma-Aldrich,various,1,1200,1200,acetate fumarate buffer
+bioreactor_subtotal,,,,,,32800,
+extraction,blender + buffers,Waring + Sigma,various,1,2500,2500,for pilus shearing
+extraction,Amicon centrifugal filters 10 kDa,Millipore,UFC9010,100,40,4000,1 year of consumables
+extraction,dialysis cassette + buffers,Thermo Fisher,Slide-A-Lyzer 7K MWCO,100,30,3000,
+extraction,UV-vis spectrometer for quality control,Thermo,NanoDrop One,1,8500,8500,or shared facility
+extraction_subtotal,,,,,,18000,
+deposition,thermal evaporator with Ag source,Kurt J. Lesker,custom tabletop,1,12000,12000,for top-electrode deposition
+deposition,atomic layer deposition,Veeco / shared facility,Savannah,1,40000,40000,for Al2O3 passivation; shared access OK
+deposition,dielectrophoresis stage,Zaber,X-LSQ300 + custom,1,8500,8500,for directed assembly (Route B)
+deposition,probe station,MicroXact / Wentworth,SP-150,1,15000,15000,for chip testing pre-pkg
+deposition_subtotal,,,,,,75500,
+cmos,custom 180 nm ASIC NRE,TSMC + design house,custom,1,80000,80000,silicon readout chip design + tape-out
+cmos,first lot 25 dies,TSMC + packaging,custom,25,1500,37500,first prototype run
+cmos,assembly + packaging into CFP-256,outsource,custom,25,400,10000,
+cmos_subtotal,,,,,,127500,
+testing,SQM source-measure unit for chip char,Keysight,B2902B,1,12000,12000,memristor IV characterization
+testing,oscilloscope 4 GHz,Keysight,DSOX6004A,1,18000,18000,
+testing,FPGA host board for SPI/PCIe,Xilinx,KCU105 dev board,1,3000,3000,interface chip to PC
+testing,environmental chamber for accelerated aging,Cincinnati Sub-Zero,Z-Plus,1,15000,15000,humidity + temperature control
+testing,clean fume hood for nanowire handling,Labconco,Class II A2 4 ft,1,9000,9000,if no shared cleanroom
+testing_subtotal,,,,,,57000,
+labor,postdoc (microbiology),internal,12 months,1,140000,140000,Geobacter culture + extraction
+labor,postdoc (device engineering),internal,12 months,1,140000,140000,deposition + characterization
+labor,grad student (CMOS design),internal,12 months stipend + tuition,1,80000,80000,
+labor,test engineer 6 months,internal,salary,0.5,160000,80000,
+labor_subtotal,,,,,,440000,
+,,,,,total_NRE_pilot:,750800,for the FIRST 1M-neuron pilot chip
+,,,,,per_additional_chip:,3500,after NRE recovered
+,,,,,note:,,with shared facilities (cleanroom + ALD + centrifuge + characterization): ~$300k NRE
