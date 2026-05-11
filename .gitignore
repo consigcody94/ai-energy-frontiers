@@ -6,3 +6,5 @@ __pycache__/
 .ipynb_checkpoints/
 .DS_Store
 Thumbs.db
+tr_diode_data_center/weather_cache/
+.commit_msg.txt

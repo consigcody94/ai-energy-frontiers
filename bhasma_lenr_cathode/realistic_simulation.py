@@ -45,6 +45,7 @@ import matplotlib.pyplot as plt
 from scipy import constants as const
 
 import model as M
+import realistic_data as RD
 
 # ----------------------------------------------------------------------
 # Constants
@@ -126,24 +127,27 @@ def d_pd_loading_curve(t_s, R_m, D_diff=D_DIFFUSION_PD,
 # ----------------------------------------------------------------------
 
 def bosch_hale_dd_n_he3_cross_section_barn(E_keV):
-    """D(d,n)³He fusion cross section vs CM energy, in barns.
+    """D(d,n)³He fusion cross section vs CM energy, in barn.
 
     Bosch & Hale (1992) parameterization, valid 0.5 keV <= E <= 4.7 MeV.
     Below 0.5 keV the parameterization is an extrapolation and the
     bare-nuclear estimate may differ from observed rates by orders
     of magnitude — this is where LENR enhancement claims live.
 
-    Coefficients from Bosch & Hale, *Nucl. Fusion* 32:611 (1992).
+    Coefficients from Bosch & Hale, *Nucl. Fusion* 32:611 (1992)
+    Table IV. The S-factor coefficients are in keV·mb (millibarn),
+    so the raw σ output is mb; convert to barn by /1000.
+
+    See realistic_data.py for measured-vs-parameterized validation
+    against published cross sections.
     """
     E = np.asarray(E_keV, dtype=float)
-    # D(d,n)³He coefficients
-    B_G = 31.3970  # Gamow constant for D-D
+    B_G = 31.3970
     A1, A2, A3, A4, A5 = 5.3701e4, 3.3027e2, -1.2706e-1, 2.9327e-5, -2.5151e-9
-    # S-factor (keV·barn)
-    S = A1 + E * (A2 + E * (A3 + E * (A4 + E * A5)))
-    # sigma = S(E) / [E exp(B_G / sqrt(E))]
-    sigma_b = S / (E * np.exp(B_G / np.sqrt(np.maximum(E, 1e-3))))
-    return np.maximum(sigma_b, 0.0)
+    S_mb_keV = A1 + E * (A2 + E * (A3 + E * (A4 + E * A5)))
+    sigma_mb = S_mb_keV / (E * np.exp(B_G / np.sqrt(np.maximum(E, 1e-3))))
+    sigma_barn = sigma_mb * 1e-3
+    return np.maximum(sigma_barn, 0.0)
 
 
 def neutron_rate(beam_current_uA, beam_energy_keV,
@@ -174,8 +178,10 @@ def neutron_rate(beam_current_uA, beam_energy_keV,
     # Effective D number density
     n_D = N_Pd_per_m3 * D_pd_ratio
 
-    # Bosch-Hale cross section in m^2 (1 barn = 1e-28 m^2)
-    sigma_b = bosch_hale_dd_n_he3_cross_section_barn(beam_energy_keV)
+    # Cross section from measured-point interpolation (more reliable
+    # than the local Bosch-Hale parameterization — see realistic_data.py
+    # for the residual analysis).
+    sigma_b = float(RD.measured_cross_section_barn(beam_energy_keV))
     sigma_m2 = sigma_b * 1e-28
 
     # Beam range in Pd: roughly 50 nm per keV for D⁺ at low energy

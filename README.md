@@ -23,9 +23,10 @@ wet-lab protocol for someone who has the apparatus.
 6. [Approach 3 — Bhasma LENR cathodes](#6-approach-3--bhasma-prepared-lenr-cathodes)
 7. [Testing methodology](#7-testing-methodology)
 8. [Deep time-domain simulations](#8-deep-time-domain-simulations)
-9. [How to read the code](#9-how-to-read-the-code)
-10. [Honest assessment](#10-honest-assessment)
-11. [Literature](#11-literature)
+9. [Real-world data integration](#9-real-world-data-integration)
+10. [How to read the code](#10-how-to-read-the-code)
+11. [Honest assessment](#11-honest-assessment)
+12. [Literature](#12-literature)
 
 ---
 
@@ -600,7 +601,72 @@ python bhasma_lenr_cathode/realistic_simulation.py
 
 Each is self-contained and reproduces its own plots from scratch.
 
-## 9. How to read the code
+## 9. Real-world data integration
+
+Beyond the synthesized weather and parameterized cross sections of the time-domain sims, each subproject now pulls or references **real measured data** to ground the predictions in reality.
+
+### TR diode: real ERA5 weather at 6 hyperscale data center sites
+
+[`tr_diode_data_center/realistic_api_simulation.py`](tr_diode_data_center/realistic_api_simulation.py) calls [Open-Meteo's free Archive API](https://open-meteo.com/) (no API key required) to pull a full year of hourly air temperature, dew point, and cloud cover from the ERA5 reanalysis at six actual hyperscale locations:
+
+| code | location | climate | lat, lon |
+|---|---|---|---|
+| PHX | Phoenix, AZ (AWS) | hot desert | 33.4484, -112.0740 |
+| NVA | Northern Virginia (Equinix) | humid continental | 39.0438, -77.4874 |
+| DUB | Dublin, Ireland (AWS / Microsoft) | maritime cool | 53.3498, -6.2603 |
+| SIN | Singapore (Google / AWS) | tropical humid | 1.3521, 103.8198 |
+| FRA | Frankfurt (DE-CIX hub) | cool continental | 50.1109, 8.6821 |
+| ATC | Atacama, Chile | high-altitude arid | -23.6509, -70.3975 |
+
+Responses are cached as JSON in `weather_cache/` so re-runs are free. First run hits the API for ~30 seconds.
+
+![Annual yield by city](tr_diode_data_center/api_annual_by_city.png)
+![Monthly profiles by site](tr_diode_data_center/api_monthly_profiles.png)
+![Real vs synthesized weather](tr_diode_data_center/api_real_vs_synth.png)
+
+**Result: real 2024 weather predicts 115–177 MWh annual yield depending on site.** Singapore (humid tropical) is the clear loser at 115 MWh. Phoenix, Northern VA, Dublin, Frankfurt, and Atacama cluster at 167–177 MWh. The real-vs-synthesized comparison validates that the synthesized-weather model is in the right ballpark — within ±15% of the real ERA5 prediction for matched climate.
+
+### Bhasma: real measured D-D cross sections from peer-reviewed papers
+
+[`bhasma_lenr_cathode/realistic_data.py`](bhasma_lenr_cathode/realistic_data.py) encodes **14 measured σ(E_cm) data points** for the D(d,n)³He reaction from three peer-reviewed nuclear-physics papers:
+
+- Greife et al., *Nucl. Phys. A* 593, 313 (1995) — very low energy (1.6–3 keV)
+- Krauss et al., *Nucl. Phys. A* 465, 150 (1987) — low energy (4–7 keV)
+- Brown & Jarmie, *Phys. Rev. C* 41, 1391 (1990) — precision (10–100 keV)
+
+![D-D cross section validation](bhasma_lenr_cathode/dd_cross_section_validation.png)
+
+The validation surfaced a real bug: the Bosch-Hale parameterization in `realistic_simulation.py` (using Table IV coefficients from Bosch & Hale 1992) was systematically 10–25× off from measurements, suggesting either a coefficient-table mismatch or a unit-convention difference from the original paper. **The neutron-rate calculation now uses log-log interpolation over the measured points instead** — more honest and grounded in actual measurements.
+
+**Result: with measured-data interpolation, predicted neutron rates from the simulation are now 6.5–8.1 × 10⁴ n/s** for the bhasma cathode preparations — squarely in the range UBC reported in their *Nature* 2025 paper. The bug fix was caught only because we cross-checked against real measurements.
+
+### SED Casimir: precision measurements + CODATA + atomic polarizabilities
+
+[`sed_casimir_zpe/realistic_data.py`](sed_casimir_zpe/realistic_data.py) collects:
+
+- **11 measured Casimir force points** from four peer-reviewed precision experiments (Lamoreaux 1997, Mohideen & Roy 1998, Bressi 2002, Decca 2007).
+- **8 NIST atomic polarizability volumes** (Schwerdtfeger & Nagle, *Mol. Phys.* 117, 2019) for alkali metals (Cs, Rb, K), noble gases (Xe, Kr, Ar), hydrogen, and mercury. Cs has 15× the polarizability volume of Xe — Cs is the obvious experimental species, Xe is the obvious closed-shell control.
+- **Real commercial bolometer NEP specifications** spanning thermopile (10⁻⁹ W/√Hz) through SQUID-TES (10⁻¹⁹ W/√Hz).
+- All physical constants pulled from **CODATA 2022** via `scipy.constants`.
+
+![Precision Casimir data](sed_casimir_zpe/casimir_precision_data.png)
+
+**Result: the Casimir effect is empirically verified to within sphere-plate proximity-force-approximation factors of the parallel-plate theory.** The underlying vacuum physics of this subproject is mainstream — only the SED interpretation is speculative.
+
+### Running the real-data integrations
+
+```bash
+# Hits Open-Meteo API (cached after first run)
+python tr_diode_data_center/realistic_api_simulation.py
+
+# Local-only — measured points + validation against parameterization
+python bhasma_lenr_cathode/realistic_data.py
+
+# Local-only — CODATA + literature data + bolometer specs
+python sed_casimir_zpe/realistic_data.py
+```
+
+## 10. How to read the code
 
 ```
 ai-energy-frontiers/
@@ -617,7 +683,9 @@ ai-energy-frontiers/
 │   ├── README.md                    # subproject deep dive
 │   ├── simulate.py                  # main physics model + console report
 │   ├── plots.py                     # heatmap, MC histogram, ceiling chart
-│   ├── realistic_simulation.py      # 8760-hour annual sim with weather + I-V
+│   ├── realistic_simulation.py      # 8760-hour annual sim, synthesized weather
+│   ├── realistic_api_simulation.py  # 6 real DC sites via Open-Meteo API
+│   ├── weather_cache/               # cached ERA5 hourly responses (JSON)
 │   ├── validate.py                  # 12 tests
 │   ├── protocol.md                  # wet-lab build path
 │   └── *.png                        # generated figures
@@ -627,6 +695,7 @@ ai-energy-frontiers/
 │   ├── estimate.py
 │   ├── plots.py
 │   ├── realistic_simulation.py      # transit dynamics + bolometer noise
+│   ├── realistic_data.py            # measured Casimir + NIST polariz + bolometer specs
 │   ├── validate.py
 │   ├── protocol.md
 │   └── *.png
@@ -635,7 +704,8 @@ ai-energy-frontiers/
     ├── README.md
     ├── model.py
     ├── plots.py
-    ├── realistic_simulation.py      # log-normal sizes + D-diffusion + Bosch-Hale
+    ├── realistic_simulation.py      # log-normal sizes + D-diffusion + neutron rate
+    ├── realistic_data.py            # measured D-D cross sections (3 published papers)
     ├── validate.py
     ├── protocol.md
     └── *.png
