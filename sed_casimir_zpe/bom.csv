@@ -12,7 +12,7 @@ gas_apertures,laser-machined 0.5 mm and 0.3 mm pinhole,Lenox Laser,custom,2,400,
 qcm_balance,quartz crystal microbalance flow monitor,Inficon,SQM-160,1,4500,4500,integrated Cs flux calibration
 xe_valve,leak valve for Xe control species,Edwards,80130-LEAK,1,1900,1900,
 xe_cylinder,research grade xenon,Praxair / Air Liquide,UHP Xe 1 m3,1,800,800,
-mu_metal,mu-metal magnetic shield enclosure,Magnetic Shield Corp,custom 100x100x150 mm,2,1200,2400,SQUID environment
+mu_metal,mu-metal magnetic shield enclosure,Magnetic Shield Corp,custom 100x100x150 mm,3,1200,3600,SQUID environment - 3 concentric layers for 1e6 attenuation (engineering_validate.py)
 lock_in,lock-in amplifier 500 kHz,Stanford Research / Zurich,SR830 or MFLI,1,11000,11000,
 squid_readout,SQUID readout electronics,Magnicon / Stanford,XXF-1,1,8500,8500,
 chopper,optical/mechanical chopper 1 Hz,Stanford Research,SR540,1,1900,1900,beam modulation reference
