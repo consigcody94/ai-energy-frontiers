@@ -1,5 +1,7 @@
 # Bacterial neuromorphic substrate for AI inference
 
+![Bacterial neuromorphic chip — physical design](design_rendering.png)
+
 The fourth subproject and the only one that attacks the AI-energy gap **from the demand side**. Instead of generating more energy to feed silicon AI compute, change the compute substrate to one that needs 100–1000× less energy per inference.
 
 This is the **biggest potential lever in the repo** — if it works, it removes ~99% of the AI-energy problem rather than incrementally adding to supply. It is also engineering-uncertain: the physics has been demonstrated; the integration to transformer-scale has not.

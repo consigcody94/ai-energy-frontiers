@@ -525,6 +525,8 @@ finding.
 
 ## 7. Approach 4 — Bacterial neuromorphic substrate (DEMAND-side)
 
+![Bacterial neuromorphic chip design rendering](bacterial_neuromorphic_substrate/design_rendering.png)
+
 The only subproject in this repo that does **not** try to generate more energy. Instead it changes the compute substrate so AI needs 100–1000× less energy per inference.
 
 ### The cross-disciplinary thesis
@@ -925,6 +927,9 @@ ai-energy-frontiers/
     ├── physical_design.md
     ├── bom.csv
     ├── schematic.py
+    ├── design_brief.md              # visual spec for the infographic
+    ├── design_layout_mockup.py      # matplotlib structural reference
+    ├── design_rendering.png         # full polished infographic
     └── *.png
 ```
 
