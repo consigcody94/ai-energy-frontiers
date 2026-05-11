@@ -112,6 +112,17 @@ def achievable_dpd_ratio(d_particle_m):
 # Hypothesized enhancement model
 # ----------------------------------------------------------------------
 
+# Below ~3 nm the bulk-Pd lattice picture breaks down: too few atoms
+# for proper grain boundaries, D/Pd loading drops due to surface
+# segregation, and quantum confinement starts to dominate. The
+# bhasma-LENR enhancement physics this model captures is invalid in
+# that regime. We cap predicted enhancement at 10x the UBC baseline
+# (1.5x absolute) and apply a smooth roll-off below the cap to keep
+# the model physically defensible at extreme small d.
+ENHANCEMENT_CAP = 10.0 * 0.15  # 1.5 absolute (10x foil baseline)
+SMALL_PARTICLE_BREAKDOWN_NM = 3.0
+
+
 def enhancement_model(d_particle_m,
                       alpha_surface=0.020,
                       alpha_loading=2.0,
@@ -119,7 +130,7 @@ def enhancement_model(d_particle_m,
     """
     Predicted fractional fusion-rate enhancement vs UBC's foil baseline.
 
-    Two contributions:
+    Two contributions plus a physically-motivated saturation cap:
 
     1) Surface/grain-boundary contribution. If "nuclear-active environment"
        (NAE) surface area drives a fraction of fusion events per LENR
@@ -132,6 +143,11 @@ def enhancement_model(d_particle_m,
        increase fusion. We use a polynomial in (loading_actual - 0.7)
        above the foil baseline, capped at 0.95.
 
+    3) Small-particle saturation: below SMALL_PARTICLE_BREAKDOWN_NM the
+       bulk lattice picture breaks down. Enhancement is hard-capped
+       at ENHANCEMENT_CAP and smoothly rolls toward that cap as
+       d -> 0.
+
     Both alphas are FREE PARAMETERS calibrated to UBC's +15% at d=10um.
     Without independent data we cannot disentangle them; this is a
     hypothesis structure, not a measured law.
@@ -143,7 +159,16 @@ def enhancement_model(d_particle_m,
     delta_dpd = np.maximum(dpd - UBC_DPD_RATIO_LOADED, 0.0)
     loading_term = alpha_loading * delta_dpd
 
-    return UBC_FUSION_ENHANCEMENT + surface_term + loading_term
+    raw = UBC_FUSION_ENHANCEMENT + surface_term + loading_term
+
+    # Piecewise smooth cap: identity below half the cap (so the
+    # calibration anchor at 0.15 << 0.75 is unaffected), then a tanh
+    # roll-over from half-cap toward the asymptote.
+    half = 0.5 * ENHANCEMENT_CAP
+    if raw <= half:
+        return raw
+    excess = raw - half
+    return half + half * np.tanh(excess / half)
 
 
 def rasashastra_puta_to_size_estimate(n_puta):

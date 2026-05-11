@@ -29,6 +29,22 @@ python sed_casimir_zpe/estimate.py
 python bhasma_lenr_cathode/model.py
 ```
 
+## Virtual testing
+
+Each subproject ships a `validate.py` with physics-consistency checks,
+multi-reference benchmarks, and Monte Carlo uncertainty quantification.
+See [`TESTING.md`](TESTING.md) for the methodology.
+
+```bash
+python validate_all.py
+```
+
+Current status: **42/42 tests passing** across the three subprojects.
+A "pass" means the model is internally consistent and matches its
+calibration anchors — not that the underlying speculative physics is
+correct. Read each subproject's `validate.py` to see exactly what is
+tested.
+
 ## Citations
 
 See [`LITERATURE.md`](LITERATURE.md) for the source papers.
