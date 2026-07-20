@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>AI Energy Frontiers — Four physics bets on the future of compute</title>
+<meta name="viewport" content="width=1280, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/theme/white.css" />
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Georgia&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --teal:       #0D5556;
+  --teal-dark:  #073d3e;
+  --cream:      #F5F2E8;
+  --cream-soft: #faf8f0;
+  --ink:        #1A2424;
+  --ink-muted:  #657272;
+  --tr:         #1F4880;
+  --sed:        #7B4F9F;
+  --bhasma:     #2C5F2D;
+  --bact:       #7A4F10;
+  --good:       #2C5F2D;
+  --bad:        #B91C1C;
+  --highlight:  #D4AF37;
+  --border:     #C5BFAF;
+}
+
+/* Global typography */
+.reveal {
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 28px;
+  color: var(--ink);
+}
+.reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+  font-family: 'Georgia', serif;
+  color: var(--ink);
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: 0;
+  margin: 0 0 0.4em 0;
+  text-align: left;
+}
+.reveal h1 { font-size: 2.2em; }
+.reveal h2 { font-size: 1.8em; }
+.reveal h3 { font-size: 1.2em; }
+.reveal p  { line-height: 1.4; text-align: left; }
+.reveal em { color: var(--ink-muted); font-style: italic; }
+.reveal strong { color: var(--ink); }
+
+.reveal section { text-align: left; }
+
+/* Subtitle line under a title */
+.subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7em;
+  font-style: italic;
+  color: var(--ink-muted);
+  margin-top: -0.4em;
+  margin-bottom: 1em;
+}
+
+/* Section accent: thin left bar */
+.with-accent { padding-left: 30px; border-left: 8px solid var(--teal); }
+.acc-tr     { border-left-color: var(--tr); }
+.acc-sed    { border-left-color: var(--sed); }
+.acc-bhasma { border-left-color: var(--bhasma); }
+.acc-bact   { border-left-color: var(--bact); }
+.acc-bad    { border-left-color: var(--bad); }
+
+/* Hero (dark) slides */
+.reveal section.dark {
+  background: var(--teal);
+  color: var(--cream);
+}
+.reveal section.dark h1, .reveal section.dark h2 { color: var(--cream); }
+.reveal section.dark em { color: #c5bfaf; }
+.reveal section.dark .accent { color: var(--highlight); }
+.reveal section.dark .footnote { color: #c5bfaf; }
+
+/* Centered cards (used on multi-column slides) */
+.card {
+  background: var(--cream-soft);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 24px;
+  margin: 0;
+}
+.card.outline { background: white; border-width: 2px; }
+.card.tr     { border-color: var(--tr); }
+.card.sed    { border-color: var(--sed); }
+.card.bhasma { border-color: var(--bhasma); }
+.card.bact   { border-color: var(--bact); }
+
+.label {
+  font-family: 'Inter', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.55em;
+  font-weight: 700;
+  color: var(--ink-muted);
+  margin: 0;
+}
+
+/* Big stat callouts */
+.big-stat {
+  font-family: 'Georgia', serif;
+  font-size: 6em;
+  font-weight: 700;
+  line-height: 1;
+  margin: 0;
+}
+.big-stat.tr     { color: var(--tr); }
+.big-stat.sed    { color: var(--sed); }
+.big-stat.bhasma { color: var(--bhasma); }
+.big-stat.bact   { color: var(--bact); }
+.big-stat.bad    { color: var(--bad); }
+.big-stat.good   { color: var(--good); }
+
+.stat-label { font-size: 0.7em; color: var(--ink); font-weight: 600; margin-top: 8px; }
+.stat-sub   { font-size: 0.55em; color: var(--ink-muted); font-style: italic; }
+
+/* Footer */
+.footer {
+  position: absolute;
+  bottom: 14px; left: 30px; right: 30px;
+  display: flex; justify-content: space-between;
+  font-size: 0.5em; color: var(--ink-muted);
+}
+.footer .right.tr     { color: var(--tr);     font-weight: 700; }
+.footer .right.sed    { color: var(--sed);    font-weight: 700; }
+.footer .right.bhasma { color: var(--bhasma); font-weight: 700; }
+.footer .right.bact   { color: var(--bact);   font-weight: 700; }
+
+/* Two-column grid */
+.cols  { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start; }
+.cols3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; align-items: start; }
+.cols4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 18px; align-items: start; }
+.col-2-1 { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; align-items: start; }
+.col-1-2 { display: grid; grid-template-columns: 1fr 2fr; gap: 30px; align-items: start; }
+
+/* Images */
+.reveal img.fit { max-width: 100%; max-height: 60vh; box-shadow: 0 6px 24px rgba(0,0,0,0.1); border-radius: 6px; }
+.reveal img.flush { max-width: 100%; max-height: 65vh; }
+
+/* Color-tagged inline text */
+.fg-tr     { color: var(--tr);     font-weight: 600; }
+.fg-sed    { color: var(--sed);    font-weight: 600; }
+.fg-bhasma { color: var(--bhasma); font-weight: 600; }
+.fg-bact   { color: var(--bact);   font-weight: 600; }
+.fg-bad    { color: var(--bad);    font-weight: 600; }
+.fg-good   { color: var(--good);   font-weight: 600; }
+.fg-muted  { color: var(--ink-muted); }
+.mono { font-family: 'JetBrains Mono', monospace; }
+
+/* URL banner */
+.url-banner {
+  background: var(--teal);
+  color: var(--cream);
+  padding: 18px 24px;
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.2em;
+  font-weight: 700;
+  border-radius: 8px;
+  margin-top: 24px;
+}
+
+/* Table styling */
+.assessment-table { width: 100%; border-collapse: collapse; font-size: 0.65em; }
+.assessment-table th,
+.assessment-table td {
+  padding: 12px 14px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--border);
+}
+.assessment-table th {
+  font-family: 'Inter', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-size: 0.85em;
+  font-weight: 700;
+  color: var(--ink-muted);
+}
+.assessment-table th.true     { color: var(--good); }
+.assessment-table th.hypo     { color: var(--highlight); }
+.assessment-table th.unknown  { color: var(--bad); }
+.assessment-table td.name { font-weight: 700; }
+.assessment-table tr td:first-child { border-left: 5px solid; padding-left: 14px; }
+.assessment-table tr.tr     td:first-child { border-left-color: var(--tr); }
+.assessment-table tr.sed    td:first-child { border-left-color: var(--sed); }
+.assessment-table tr.bhasma td:first-child { border-left-color: var(--bhasma); }
+.assessment-table tr.bact   td:first-child { border-left-color: var(--bact); }
+
+ul.clean { list-style: none; padding: 0; margin: 0; }
+ul.clean li { padding: 8px 0; }
+ul.clean li::before { content: '✓ '; color: var(--good); font-weight: 700; }
+
+/* Slide number positioning */
+.reveal .progress { color: var(--teal); }
+.reveal .slide-number { background: rgba(13,85,86,0.85); }
+
+/* Speaker controls a bit larger */
+.reveal .controls { color: var(--teal); }
+</style>
+</head>
+
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ============== SLIDE 1: TITLE (dark hero) ============== -->
+<section class="dark" data-background-color="#0D5556">
+  <div style="height:80vh; display:flex; flex-direction:column; justify-content:center;">
+    <h1 style="font-size:4em; letter-spacing:0.05em; margin-bottom:0; line-height:1.05;">AI&nbsp;ENERGY</h1>
+    <h1 style="font-size:4em; letter-spacing:0.05em; margin-top:0; color:var(--highlight); line-height:1.05;">FRONTIERS</h1>
+    <div style="border-top:1px solid var(--cream); width:25%; margin:30px 0;"></div>
+    <p style="font-family:Georgia; font-size:1.4em; font-style:italic; color:var(--cream); margin:0;">Four physics bets on the future of compute</p>
+    <p style="font-size:0.85em; color:#c5bfaf; margin-top:0.3em;">...and where the under-explored physics actually lives</p>
+    <div style="margin-top:50px;">
+      <p style="font-size:0.7em; font-weight:600; color:var(--cream); margin:0;">Cody Churchwell</p>
+      <p class="mono" style="font-size:0.65em; color:var(--highlight); margin:6px 0 0 0;">github.com/consigcody94/ai-energy-frontiers</p>
+    </div>
+  </div>
+  <aside class="notes">
+Open by anchoring the talk: "Tonight I want to walk you through four bets — four physics bets — on what could close the AI electricity gap. Three supply-side, one demand-side. All on GitHub, MIT licensed. Let me show you."
+Pause. Click to next slide.
+  </aside>
+</section>
+
+<!-- ============== SLIDE 2: 950 TWh problem ============== -->
+<section>
+  <div class="with-accent acc-bad">
+    <h2>AI is about to eat the grid</h2>
+    <p class="subtitle">International Energy Agency, 2025 forecast</p>
+  </div>
+  <div class="cols" style="margin-top:40px;">
+    <div style="text-align:center;">
+      <div class="big-stat bad" style="font-size:9em;">950</div>
+      <div style="font-family:Georgia; font-size:1.4em; font-weight:700; margin-top:-12px;">TWh</div>
+      <div class="stat-sub" style="margin-top:6px;">global data-center electricity by 2030</div>
+    </div>
+    <div style="padding-top:30px;">
+      <p><strong>From 485 TWh (2025)</strong></p>
+      <p class="fg-bad" style="font-weight:700;">to ~950 TWh (2030)</p>
+      <p style="margin-top:18px;">AI-accelerated servers grow at <span class="fg-bad">30% per year</span></p>
+      <p>≈ the entire electricity consumption of <em>Japan</em></p>
+      <p class="fg-bad" style="font-weight:700; font-size:1.1em; margin-top:18px;">Grid build-out is NOT on pace.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Source: IEA <em>Energy and AI</em>, 2025</span><span class="right" style="color:var(--bad); font-weight:700;">the problem</span></div>
+  <aside class="notes">
+Don't rush this. Let the number land. "More electricity than Japan uses today. Just for our data centers. Just by 2030. Growing 30% a year on the AI side. The grid isn't building out at 30% a year."
+  </aside>
+</section>
+
+<!-- ============== SLIDE 3: Two attack vectors ============== -->
+<section>
+  <h2>Two ways to close the gap</h2>
+  <p class="subtitle">Most people only see one of them</p>
+  <div class="cols" style="margin-top:30px;">
+    <div class="card">
+      <h3 class="fg-tr" style="margin:0;">SUPPLY</h3>
+      <p class="subtitle">Generate more energy</p>
+      <p><span class="fg-tr">1. Thermoradiative diodes</span><br/>
+         <span class="fg-muted" style="font-size:0.85em;">Cold sky as heat sink</span></p>
+      <p><span class="fg-sed">2. Casimir-cavity vacuum energy</span><br/>
+         <span class="fg-muted" style="font-size:0.85em;">Stochastic-electrodynamics loophole</span></p>
+      <p><span class="fg-bhasma">3. Bhasma-prepared LENR cathodes</span><br/>
+         <span class="fg-muted" style="font-size:0.85em;">Rasashastra × <em>Nature</em> 2025</span></p>
+    </div>
+    <div class="card">
+      <h3 class="fg-bact" style="margin:0;">DEMAND</h3>
+      <p class="subtitle">Use less per inference</p>
+      <p><span class="fg-bact">4. Bacterial neuromorphic compute</span><br/>
+         <span class="fg-muted" style="font-size:0.85em;">Geobacter protein nanowires<br/>at biological voltage and energy</span></p>
+      <p style="margin-top:24px;"><strong>If it works:</strong></p>
+      <p class="fg-bact" style="font-weight:700;">100×–1000× less energy per inference vs silicon</p>
+      <p style="margin-top:12px; font-style:italic;">Removes ~99% of the problem.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Supply adds MWh. Demand reduces them.</span><span></span></div>
+  <aside class="notes">
+"There are two ways to close any energy gap and most people only ever talk about the supply side. Three of my four bets are supply-side. One is on the demand side and it's the biggest single lever in the whole talk."
+  </aside>
+</section>
+
+<!-- ============== SLIDE 4: Map of four approaches ============== -->
+<section>
+  <h2>The four approaches</h2>
+  <p class="subtitle">Layered: now → mid-term → long-shot → demand-side lever</p>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:18px; margin-top:14px; height:62vh;">
+
+    <div class="card outline tr">
+      <div style="display:flex; justify-content:space-between;">
+        <span style="font-family:Georgia; font-size:1.6em; font-weight:700;" class="fg-tr">01</span>
+        <span class="label" style="color:var(--tr);">BUILDABLE NOW</span>
+      </div>
+      <h3 style="margin-top:6px; margin-bottom:0;">TR DIODES</h3>
+      <p class="subtitle" style="margin-bottom:14px;">Cold sky as heat sink</p>
+      <div style="display:flex; align-items:center; gap:16px;">
+        <span class="big-stat tr" style="font-size:2.8em;">0.3%</span>
+        <span class="stat-sub">of facility load today</span>
+      </div>
+    </div>
+
+    <div class="card outline sed">
+      <div style="display:flex; justify-content:space-between;">
+        <span style="font-family:Georgia; font-size:1.6em; font-weight:700;" class="fg-sed">02</span>
+        <span class="label" style="color:var(--sed);">BASIC PHYSICS BET</span>
+      </div>
+      <h3 style="margin-top:6px; margin-bottom:0;">SED CASIMIR ZPE</h3>
+      <p class="subtitle" style="margin-bottom:14px;">Vacuum-mode exclusion</p>
+      <div style="display:flex; align-items:center; gap:16px;">
+        <span class="big-stat sed" style="font-size:2.8em;">$200k</span>
+        <span class="stat-sub">decisive experiment</span>
+      </div>
+    </div>
+
+    <div class="card outline bhasma">
+      <div style="display:flex; justify-content:space-between;">
+        <span style="font-family:Georgia; font-size:1.6em; font-weight:700;" class="fg-bhasma">03</span>
+        <span class="label" style="color:var(--bhasma);">CROSS-DISCIPLINARY</span>
+      </div>
+      <h3 style="margin-top:6px; margin-bottom:0;">BHASMA LENR</h3>
+      <p class="subtitle" style="margin-bottom:14px;">Rasashastra × <em>Nature</em> 2025</p>
+      <div style="display:flex; align-items:center; gap:16px;">
+        <span class="big-stat bhasma" style="font-size:2.8em;">5×</span>
+        <span class="stat-sub">predicted enhancement</span>
+      </div>
+    </div>
+
+    <div class="card outline bact">
+      <div style="display:flex; justify-content:space-between;">
+        <span style="font-family:Georgia; font-size:1.6em; font-weight:700;" class="fg-bact">04</span>
+        <span class="label" style="color:var(--bact);">DEMAND-SIDE LEVER</span>
+      </div>
+      <h3 style="margin-top:6px; margin-bottom:0;">BACTERIAL NEURO</h3>
+      <p class="subtitle" style="margin-bottom:14px;">Geobacter on CMOS</p>
+      <div style="display:flex; align-items:center; gap:16px;">
+        <span class="big-stat bact" style="font-size:2.8em;">500×</span>
+        <span class="stat-sub">lower energy per token</span>
+      </div>
+    </div>
+
+  </div>
+  <div class="footer"><span>All four shipped: code, tests, BOM, schematic, protocol.</span><span></span></div>
+</section>
+
+<!-- ============== SLIDE 5: TR diodes physics ============== -->
+<section>
+  <div class="with-accent acc-tr">
+    <h2><span class="fg-tr">01 ·</span> Thermoradiative Diodes</h2>
+    <p class="subtitle">The cold sky as a heat sink — every clear night</p>
+  </div>
+  <div class="col-1-2" style="margin-top:24px;">
+    <div>
+      <p>A photovoltaic cell <span class="fg-tr"><em>in reverse</em></span></p>
+      <p style="font-size:0.85em;">Hot data-center surface emits IR photons through the 8–13 µm atmospheric window toward effectively ~3 K of deep space.</p>
+      <p class="fg-muted" style="font-style:italic; margin-top:14px;">Net spectral flux drives current:</p>
+      <p class="mono fg-tr" style="font-size:0.7em; margin:8px 0; font-weight:700;">F_net = π · τ(λ) · η(λ) · [B(λ,T_hot) − B(λ,T_sky)]</p>
+      <p style="margin-top:14px;">We took the 2024 record of <strong>350 mW/m²</strong> and re-ran the model against real hourly ERA5 weather at <strong>6 hyperscale sites</strong>.</p>
+    </div>
+    <div style="text-align:center;">
+      <img class="fit" src="../tr_diode_data_center/design_rendering.png" alt="TR diode panel design rendering" />
+    </div>
+  </div>
+  <div class="footer"><span>Calibrated to arXiv:2407.17751 — Liao et al., 2024</span><span class="right tr">01 / 04</span></div>
+</section>
+
+<!-- ============== SLIDE 6: Six cities ============== -->
+<section>
+  <div class="with-accent acc-tr">
+    <h2>Real weather, real data centers</h2>
+    <p class="subtitle">ERA5 reanalysis via Open-Meteo, 2024 hourly</p>
+  </div>
+  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-top:24px;">
+    <!-- PHX -->
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:baseline;">
+        <span class="mono fg-tr" style="font-weight:700;">PHX</span>
+        <span style="font-weight:600;">Phoenix</span>
+      </div>
+      <div style="display:flex; align-items:baseline; gap:8px; margin-top:8px;">
+        <span class="big-stat tr" style="font-size:2.6em;">171</span>
+        <span style="color:var(--ink-muted);">MWh</span>
+      </div>
+      <div class="stat-sub">hot desert</div>
+    </div>
+    <!-- NVA -->
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:baseline;">
+        <span class="mono fg-tr" style="font-weight:700;">NVA</span>
+        <span style="font-weight:600;">N. Virginia</span>
+      </div>
+      <div style="display:flex; align-items:baseline; gap:8px; margin-top:8px;">
+        <span class="big-stat tr" style="font-size:2.6em;">176</span>
+        <span style="color:var(--ink-muted);">MWh</span>
+      </div>
+      <div class="stat-sub">humid continental</div>
+    </div>
+    <!-- DUB -->
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:baseline;">
+        <span class="mono fg-tr" style="font-weight:700;">DUB</span>
+        <span style="font-weight:600;">Dublin</span>
+      </div>
+      <div style="display:flex; align-items:baseline; gap:8px; margin-top:8px;">
+        <span class="big-stat tr" style="font-size:2.6em;">177</span>
+        <span style="color:var(--ink-muted);">MWh</span>
+      </div>
+      <div class="stat-sub">maritime cool</div>
+    </div>
+    <!-- FRA -->
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:baseline;">
+        <span class="mono fg-tr" style="font-weight:700;">FRA</span>
+        <span style="font-weight:600;">Frankfurt</span>
+      </div>
+      <div style="display:flex; align-items:baseline; gap:8px; margin-top:8px;">
+        <span class="big-stat tr" style="font-size:2.6em;">177</span>
+        <span style="color:var(--ink-muted);">MWh</span>
+      </div>
+      <div class="stat-sub">cool continental</div>
+    </div>
+    <!-- ATC -->
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:baseline;">
+        <span class="mono fg-tr" style="font-weight:700;">ATC</span>
+        <span style="font-weight:600;">Atacama</span>
+      </div>
+      <div style="display:flex; align-items:baseline; gap:8px; margin-top:8px;">
+        <span class="big-stat tr" style="font-size:2.6em;">167</span>
+        <span style="color:var(--ink-muted);">MWh</span>
+      </div>
+      <div class="stat-sub">high desert</div>
+    </div>
+    <!-- SIN -->
+    <div class="card" style="border-color:var(--bad);">
+      <div style="display:flex; justify-content:space-between; align-items:baseline;">
+        <span class="mono fg-bad" style="font-weight:700;">SIN</span>
+        <span style="font-weight:600;">Singapore</span>
+      </div>
+      <div style="display:flex; align-items:baseline; gap:8px; margin-top:8px;">
+        <span class="big-stat bad" style="font-size:2.6em;">115</span>
+        <span style="color:var(--ink-muted);">MWh</span>
+      </div>
+      <div class="stat-sub">tropical humid</div>
+    </div>
+  </div>
+  <p style="margin-top:24px; font-size:0.8em;"><span class="fg-bad">Singapore is the loser</span> (humid tropical = warm sky). Everywhere else: <span class="fg-tr"><strong>167–177 MWh/yr</strong></span> per 100,000 m² roof.</p>
+  <div class="footer"><span>Open-Meteo Archive API, ERA5 reanalysis hourly</span><span class="right tr">01 / 04</span></div>
+</section>
+
+<!-- ============== SLIDE 7: $8K pilot ============== -->
+<section>
+  <div class="with-accent acc-tr">
+    <h2>The pilot you could fund tonight</h2>
+    <p class="subtitle">10 panels, $8,000, one corporate skunkworks</p>
+  </div>
+  <div class="cols" style="margin-top:24px; align-items:center;">
+    <div style="text-align:center;">
+      <div class="big-stat tr" style="font-size:9em;">$8K</div>
+      <p class="stat-sub" style="margin-top:8px;">pilot deck — 10 panels installed &amp; instrumented</p>
+    </div>
+    <div>
+      <h3 class="fg-tr">What the pilot proves</h3>
+      <ul class="clean">
+        <li><strong>Real device efficiency</strong><br/><em style="color:var(--ink-muted); font-size:0.85em;">(today's 0.5% of radiative limit)</em></li>
+        <li><strong>Field failure modes</strong><br/><em style="color:var(--ink-muted); font-size:0.85em;">(humidity, dust, hail — the unmodeled enemies)</em></li>
+        <li><strong>Cost trajectory at 100k volume</strong><br/><em style="color:var(--ink-muted); font-size:0.85em;">(today $526/panel; ~$50 if MCT mass-produces)</em></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer"><span>Full BOM with vendor part numbers in the repo</span><span class="right tr">01 / 04</span></div>
+</section>
+
+<!-- ============== SLIDE 8: SED Casimir intro ============== -->
+<section>
+  <div class="with-accent acc-sed">
+    <h2><span class="fg-sed">02 ·</span> The vacuum has structure</h2>
+    <p class="subtitle">Casimir 1948 — and a thermodynamic loophole nobody followed up</p>
+  </div>
+  <div class="col-1-2" style="margin-top:24px;">
+    <div>
+      <p>Two parallel plates at separation <em>d</em><br/>
+         attract through <span class="fg-sed"><em>vacuum mode exclusion</em></span>.</p>
+      <p class="mono fg-sed" style="font-size:0.95em; font-weight:700; margin:14px 0;">F/A = π² ℏc / (240 d⁴)</p>
+      <p class="fg-muted" style="font-size:0.8em; font-style:italic;">Verified to 1% across Lamoreaux 1997, Mohideen 1998, Bressi 2002, Decca 2007.</p>
+      <p style="margin-top:24px;"><strong>Schrieber 2019</strong> reviewed three classes of ZPE extraction.<br/>
+         Two violate the 2nd law. <span class="fg-sed"><strong><em>One does not.</em></strong></span></p>
+    </div>
+    <div style="text-align:center;">
+      <img class="fit" src="../sed_casimir_zpe/casimir_force.png" alt="Casimir force theory vs experiment" />
+    </div>
+  </div>
+  <div class="footer"><span>Casimir effect: real, verified, mainstream physics</span><span class="right sed">02 / 04</span></div>
+</section>
+
+<!-- ============== SLIDE 9: SED Casimir decisive experiment ============== -->
+<section>
+  <div class="with-accent acc-sed">
+    <h2>The decisive experiment</h2>
+    <p class="subtitle">Sub-100 nm cavity stack + SQUID-TES bolometer + Cs vapor</p>
+  </div>
+  <div class="cols" style="margin-top:24px;">
+    <div>
+      <p><strong>Pump gas atoms through a Casimir cavity.</strong></p>
+      <p style="font-size:0.9em;">In Schrieber's interpretation, electron orbitals settle lower because long-λ ZPF modes are excluded.</p>
+      <p style="font-size:0.9em;">Atom enters → releases energy → leaves and re-fills from the universe's free-space ZPF.</p>
+      <p style="margin-top:18px;" class="fg-sed"><strong>Predictions if real:</strong></p>
+      <ul style="font-size:0.9em; padding-left:20px;">
+        <li>scales as <span class="mono fg-sed"><strong>1/d⁴</strong></span></li>
+        <li>zero signal for closed-shell atoms (Xe control)</li>
+        <li>cleanly detectable on a cryogenic bolometer</li>
+      </ul>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div class="big-stat sed" style="font-size:5em;">$200K</div>
+      <p class="stat-sub" style="margin-top:6px;">with shared dilution-fridge access</p>
+      <p style="margin-top:20px;"><strong>6-month measurement campaign.</strong></p>
+      <p style="font-size:0.9em;">Either outcome = <span class="fg-sed"><em><strong>Phys. Rev. Lett.</strong></em></span></p>
+      <p style="font-size:0.85em; margin-top:12px;">Detection → new energy regime<br/>Null → closes the SED loophole forever</p>
+    </div>
+  </div>
+  <div class="footer"><span>Almost zero peer-reviewed follow-up since Schrieber 2019</span><span class="right sed">02 / 04</span></div>
+</section>
+
+<!-- ============== SLIDE 10: LENR rehabilitated ============== -->
+<section>
+  <div class="with-accent acc-bhasma">
+    <h2><span class="fg-bhasma">03 ·</span> LENR just got rehabilitated</h2>
+    <p class="subtitle"><em>Nature</em> 644:640 (2025) — UBC Thunderbird Reactor</p>
+  </div>
+  <div class="cols" style="margin-top:24px; align-items:center;">
+    <div style="text-align:center;">
+      <div class="big-stat bhasma" style="font-size:8em;">+15%</div>
+      <p style="font-weight:700; margin-top:6px;">D-D fusion rate enhancement</p>
+      <p class="stat-sub">from electrochemical D loading into Pd</p>
+    </div>
+    <div>
+      <p class="fg-bhasma" style="font-size:1.1em; font-weight:700;">Hard neutron signature.</p>
+      <p class="fg-muted" style="font-style:italic;">Not calorimetry. Real fusion.</p>
+      <p style="margin-top:18px;">First <em>Nature</em>-tier validation of electrochemical cold-fusion enhancement.</p>
+      <p>ARPA-E funding <strong>$10M across 8 LENR projects</strong>.</p>
+      <p class="fg-bhasma" style="font-style:italic; font-weight:700; margin-top:18px;">The cold-fusion taboo is breaking.</p>
+    </div>
+  </div>
+  <div class="footer"><span>Schenkel et al., <em>Nature</em> 644:640–645 (Aug 2025)</span><span class="right bhasma">03 / 04</span></div>
+</section>
+
+<!-- ============== SLIDE 11: Rasashastra cross-disciplinary ============== -->
+<section>
+  <div class="with-accent acc-bhasma">
+    <h2>The cross-disciplinary thesis</h2>
+    <p class="subtitle">Indian alchemy already builds the cathode we need</p>
+  </div>
+  <div class="col-1-2" style="margin-top:24px;">
+    <div style="font-size:0.85em;">
+      <p style="font-family:Georgia; font-size:1.6em; font-weight:700; font-style:italic;" class="fg-bhasma">Rasashastra</p>
+      <p class="fg-muted" style="font-style:italic; margin-top:-12px;">the Sanskrit "science of mercury"</p>
+      <p style="margin-top:14px;">Classical bhasma preparations are repeatedly calcined nanoparticulate metals.</p>
+      <p style="margin-top:14px;"><strong>Modern XRD / TEM confirms:</strong></p>
+      <p class="fg-muted" style="font-style:italic; margin:4px 0;">Tamra bhasma — &lt; 100 nm Cu crystallites</p>
+      <p class="fg-muted" style="font-style:italic; margin:4px 0;">Jasada bhasma — non-stoich. nano ZnO</p>
+      <p class="fg-bhasma" style="font-style:italic; font-weight:700; font-size:1.1em; margin-top:18px;">Nobody has tried Pd-bhasma.</p>
+      <p style="margin-top:14px;">It SHOULD outperform UBC's foil:</p>
+      <ol style="font-size:0.95em; padding-left:24px; margin-top:6px;">
+        <li>Higher D/Pd loading (0.95 vs 0.70)</li>
+        <li>~300× the grain-boundary surface area</li>
+      </ol>
+    </div>
+    <div style="text-align:center;">
+      <img class="fit" src="../bhasma_lenr_cathode/puta_progression.png" alt="Puta progression chart" />
+    </div>
+  </div>
+  <div class="footer"><span>Wujastyk, <em>Rasa and Rasaśāstra</em> (Oxford, 2024)</span><span class="right bhasma">03 / 04</span></div>
+</section>
+
+<!-- ============== SLIDE 12: Three-way bake-off ============== -->
+<section>
+  <div class="with-accent acc-bhasma">
+    <h2>The three-way bake-off</h2>
+    <p class="subtitle">Disentangles "is it surface area?" from "is it rasashastra-specific?"</p>
+  </div>
+  <div class="cols3" style="margin-top:30px;">
+    <div class="card outline bhasma">
+      <div style="font-family:Georgia; font-size:2.4em; font-weight:700;" class="fg-bhasma">A</div>
+      <h3 style="margin:0;">Pd-bhasma</h3>
+      <p class="subtitle">60 puta cycles + parada-marana</p>
+      <p style="margin-top:18px;" class="fg-bhasma"><strong>Model predicts +50–80%</strong></p>
+    </div>
+    <div class="card" style="border-color:var(--highlight); border-width:2px;">
+      <div style="font-family:Georgia; font-size:2.4em; font-weight:700; color:var(--highlight);">B</div>
+      <h3 style="margin:0;">Commercial Pd-black</h3>
+      <p class="subtitle">Matched BET surface area</p>
+      <p style="margin-top:18px; color:var(--highlight);"><strong>If A ≈ B, just surface area</strong></p>
+    </div>
+    <div class="card" style="border-color:var(--ink-muted); border-width:2px;">
+      <div style="font-family:Georgia; font-size:2.4em; font-weight:700; color:var(--ink-muted);">C</div>
+      <h3 style="margin:0;">Commercial Pd foil</h3>
+      <p class="subtitle">UBC baseline replication</p>
+      <p style="margin-top:18px; color:var(--ink-muted);"><strong>Reproduces +15% UBC anchor</strong></p>
+    </div>
+  </div>
+  <p style="text-align:center; margin-top:30px; font-style:italic; color:var(--ink-muted);">
+    12-week graduate-student project · $80k with shared accelerator + neutron array
+  </p>
+  <div class="footer"><span>Full protocol in <span class="mono">bhasma_lenr_cathode/protocol.md</span></span><span class="right bhasma">03 / 04</span></div>
+</section>
+
+<!-- ============== SLIDE 13: Bacterial substrate ============== -->
+<section>
+  <div class="with-accent acc-bact">
+    <h2><span class="fg-bact">04 ·</span> The demand-side lever</h2>
+    <p class="subtitle">Bacteria growing the AI compute substrate</p>
+  </div>
+  <div class="col-1-2" style="margin-top:24px;">
+    <div>
+      <p><strong>Silicon hit a voltage wall.</strong></p>
+      <p style="font-size:0.85em;">Below ~0.6V CMOS gates leak exponentially. Memory access dominates everything.</p>
+      <p style="margin-top:16px; font-family:Georgia; font-style:italic; font-size:1.3em;" class="fg-bact">Geobacter sulfurreducens</p>
+      <p style="font-size:0.85em;">grows electrically conductive protein nanowires.</p>
+      <p style="margin-top:14px;"><span class="fg-bact"><strong>Fu et al., <em>Nature Comms</em> 11:1861 (2020)</strong></span><br/>
+         built memristors at <span class="mono fg-bact"><strong>70–130 mV</strong></span> and <span class="mono fg-bact"><strong>0.3–100 pJ</strong></span> per switching event.</p>
+      <p class="fg-bact" style="font-style:italic; font-weight:700; margin-top:18px; font-size:1.05em;">First non-biological substrate to hit biology.</p>
+    </div>
+    <div style="text-align:center;">
+      <img class="fit" src="../bacterial_neuromorphic_substrate/design_rendering.png" alt="Bacterial neuromorphic chip rendering" />
+    </div>
+  </div>
+  <div class="footer"><span>Geobacter pili discovered: Lovley lab, UMass Amherst</span><span class="right bact">04 / 04</span></div>
+</section>
+
+<!-- ============== SLIDE 14: The 500× lever ============== -->
+<section>
+  <div class="with-accent acc-bact">
+    <h2>The lever</h2>
+    <p class="subtitle">Energy per LLaMA-70B token, log scale</p>
+  </div>
+  <div class="col-2-1" style="margin-top:18px;">
+    <div style="text-align:center;">
+      <img class="flush" src="../bacterial_neuromorphic_substrate/substrate_comparison.png" alt="Substrate energy comparison" />
+    </div>
+    <div style="text-align:center;">
+      <div class="big-stat bact" style="font-size:6em;">500×</div>
+      <p class="stat-sub" style="margin-top:4px;">lower energy per token</p>
+      <hr style="margin:18px auto; width:60%;" />
+      <p style="font-weight:700; margin:2px 0;">Today's silicon</p>
+      <p class="mono fg-bad" style="font-size:1.2em; font-weight:700; margin:2px 0;">7 J/token (H100)</p>
+      <p style="font-weight:700; margin:14px 0 2px;">Engineered target</p>
+      <p class="mono fg-bact" style="font-size:1.2em; font-weight:700; margin:2px 0;">14 mJ/token</p>
+      <p style="font-weight:700; margin:14px 0 2px;">Biological floor</p>
+      <p class="mono fg-muted" style="font-size:1em; font-style:italic; margin:2px 0;">1.4 mJ/token</p>
+    </div>
+  </div>
+  <div class="footer"><span>Calibrated to Fu 2020 NatComms, Loihi-2 Davies 2021, NVIDIA H100 whitepaper</span><span class="right bact">04 / 04</span></div>
+</section>
+
+<!-- ============== SLIDE 15: Global grid picture ============== -->
+<section>
+  <div class="with-accent acc-bact">
+    <h2>What that means for the grid</h2>
+    <p class="subtitle">2030 global AI inference electricity demand</p>
+  </div>
+  <div class="col-2-1" style="margin-top:18px;">
+    <div style="text-align:center;">
+      <img class="flush" src="../bacterial_neuromorphic_substrate/global_demand.png" alt="Global demand by substrate" />
+    </div>
+    <div style="text-align:center;">
+      <p style="font-weight:700; margin-bottom:0;">Silicon path</p>
+      <p class="mono fg-bad" style="font-size:1.5em; font-weight:700; margin:4px 0;">1,100 TWh/yr</p>
+      <p class="stat-sub" style="margin:0;">above the IEA's entire 950 TWh<br/>data-center forecast</p>
+      <hr style="margin:20px auto; width:60%;" />
+      <p style="font-weight:700; margin-bottom:0;">Engineered target</p>
+      <p class="mono fg-bact" style="font-size:1.5em; font-weight:700; margin:4px 0;">2.2 TWh/yr</p>
+      <p class="stat-sub" style="margin:0;">off the chart, downward.</p>
+    </div>
+  </div>
+  <div class="footer"><span>1 trillion daily inferences at 500 tokens each, GPT-4-class</span><span class="right bact">04 / 04</span></div>
+</section>
+
+<!-- ============== SLIDE 16: Cross-approach comparison ============== -->
+<section>
+  <h2>Which approach wins?</h2>
+  <p class="subtitle">All four on the same axis, three TRL milestones</p>
+  <div style="text-align:center; margin-top:18px;">
+    <img class="flush" src="../comparison.png" alt="Four-approach comparison chart" style="max-height:70vh;" />
+  </div>
+  <div class="footer"><span><span class="mono">comparison.py</span> — all four subprojects, side by side</span><span></span></div>
+</section>
+
+<!-- ============== SLIDE 17: What's already built ============== -->
+<section>
+  <h2>What's already built</h2>
+  <p class="subtitle">The repo, today</p>
+
+  <div class="cols4" style="margin-top:24px;">
+    <div class="card" style="text-align:center; border-color:var(--teal);">
+      <div class="big-stat" style="font-size:5em; color:var(--teal);">4</div>
+      <p style="font-weight:700; margin:2px 0;">subprojects</p>
+      <p class="stat-sub">TR · SED · Bhasma · Bacterial</p>
+    </div>
+    <div class="card" style="text-align:center; border-color:var(--bhasma);">
+      <div class="big-stat bhasma" style="font-size:5em;">62</div>
+      <p style="font-weight:700; margin:2px 0;">physics tests</p>
+      <p class="stat-sub">calibration + monotonicity + MC</p>
+    </div>
+    <div class="card" style="text-align:center; border-color:var(--tr);">
+      <div class="big-stat tr" style="font-size:5em;">50</div>
+      <p style="font-weight:700; margin:2px 0;">engineering tests</p>
+      <p class="stat-sub">wind, hail, thermal, signal, vacuum, dose</p>
+    </div>
+    <div class="card" style="text-align:center; border-color:var(--good);">
+      <div class="big-stat good" style="font-size:5em;">0</div>
+      <p style="font-weight:700; margin:2px 0;">FAIL items</p>
+      <p class="stat-sub">every design survives engineering review</p>
+    </div>
+  </div>
+
+  <p style="text-align:center; margin-top:30px;"><strong>Every subproject ships:</strong></p>
+  <p style="text-align:center; color:var(--ink-muted); font-size:0.8em;">
+    physics simulator · validation suite · plots · real-world data integration ·<br/>
+    <span class="mono">physical_design.md · bom.csv · schematic · protocol.md ·</span> engineering tests
+  </p>
+
+  <div class="url-banner">github.com/consigcody94/ai-energy-frontiers</div>
+
+  <div class="footer"><span>MIT licensed · fork it · fix it · prove it wrong</span><span></span></div>
+</section>
+
+<!-- ============== SLIDE 18: Honest assessment ============== -->
+<section>
+  <h2>Honest assessment</h2>
+  <p class="subtitle">What's true · what's hypothesis · what's unknown</p>
+
+  <table class="assessment-table" style="margin-top:18px;">
+    <thead>
+      <tr>
+        <th>APPROACH</th>
+        <th class="true">TRUE</th>
+        <th class="hypo">HYPOTHESIS</th>
+        <th class="unknown">UNKNOWN</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="tr">
+        <td class="name fg-tr">TR diodes</td>
+        <td>Planck physics; 350 mW/m² 2024 record; atmospheric window</td>
+        <td>Device efficiency improves 10–20× in 5 years</td>
+        <td>Capital cost trajectory of MCT arrays at scale</td>
+      </tr>
+      <tr class="sed">
+        <td class="name fg-sed">SED Casimir</td>
+        <td>Casimir effect verified to 1%; Schrieber's thermodynamic argument</td>
+        <td>SED interpretation of orbital ground states</td>
+        <td>f_couple — never measured anywhere since 2019</td>
+      </tr>
+      <tr class="bhasma">
+        <td class="name fg-bhasma">Bhasma LENR</td>
+        <td>UBC +15% <em>Nature</em> 2025; bhasma nano-particles XRD-confirmed</td>
+        <td>α_surface and α_loading coefficients; cross-disciplinary connection</td>
+        <td>Whether bhasma-prep beats commercial nano-Pd</td>
+      </tr>
+      <tr class="bact">
+        <td class="name fg-bact">Bacterial neuro</td>
+        <td>Geobacter pilus memristors at biological voltage and energy</td>
+        <td>Sub-fF capacitance scaling gives the 500× advantage</td>
+        <td>8–9 orders of magnitude of integration scaling</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="footer"><span>Hypotheses are bets, not promises. Unknowns are open questions.</span><span></span></div>
+</section>
+
+<!-- ============== SLIDE 19: Roadmap ============== -->
+<section>
+  <h2>Where each one goes next</h2>
+  <p class="subtitle">Near · mid · long — and they don't have to win in order</p>
+
+  <div class="cols3" style="margin-top:24px;">
+    <div class="card outline tr">
+      <h3 class="fg-tr" style="text-transform:none;">NOW · 1 year</h3>
+      <ol style="font-size:0.85em; padding-left:22px;">
+        <li>TR diode 10-panel pilot ($8k)</li>
+        <li>First real-deployment device-efficiency measurement</li>
+        <li>Bhasma-Pd cathode prep + characterize</li>
+      </ol>
+    </div>
+    <div class="card outline bhasma">
+      <h3 class="fg-bhasma" style="text-transform:none;">MID · 2–5 years</h3>
+      <ol style="font-size:0.85em; padding-left:22px;">
+        <li>Bhasma-LENR three-way cathode test</li>
+        <li>SED Casimir cavity experiment (PRL-tier either way)</li>
+        <li>Loihi-2-equivalent SNN on Geobacter (64K neurons)</li>
+      </ol>
+    </div>
+    <div class="card outline bact">
+      <h3 class="fg-bact" style="text-transform:none;">LONG · 5–10 years</h3>
+      <ol style="font-size:0.85em; padding-left:22px;">
+        <li>MCT photodiode cost reduction → economic TR roof</li>
+        <li>If LENR scales: net-positive bhasma reactor</li>
+        <li>Hybrid Geobacter-CMOS chip at transformer-block scale</li>
+      </ol>
+    </div>
+  </div>
+  <div class="footer"><span>Different funding levers per phase: skunkworks → grant → seed/Series A</span><span></span></div>
+</section>
+
+<!-- ============== SLIDE 20: Why this matters ============== -->
+<section class="dark" data-background-color="#0D5556">
+  <div style="height:80vh; display:flex; flex-direction:column; justify-content:center;">
+    <p style="font-family:Georgia; font-size:1.6em; font-style:italic; color:var(--highlight); margin:0 0 12px;">Why this matters</p>
+    <h2 style="font-size:2.2em; line-height:1.15;">AI's energy problem isn't just engineering.</h2>
+    <p style="font-family:Georgia; font-size:1.5em; font-style:italic; color:#c5bfaf; margin-top:-10px;">It's a question about what physics we have ignored.</p>
+
+    <div class="cols" style="margin-top:50px;">
+      <div>
+        <p style="font-size:1.05em; font-weight:700; color:var(--cream); margin:0;">The cold sky</p>
+        <p style="color:#c5bfaf; font-style:italic;">is a heat sink we don't use.</p>
+        <p style="font-size:1.05em; font-weight:700; color:var(--cream); margin-top:24px;">The vacuum</p>
+        <p style="color:#c5bfaf; font-style:italic;">has a thermodynamic loophole nobody followed up.</p>
+      </div>
+      <div>
+        <p style="font-size:1.05em; font-weight:700; color:var(--cream); margin:0;">Ancient metallurgy</p>
+        <p style="color:#c5bfaf; font-style:italic;">may have already solved the LENR cathode problem.</p>
+        <p style="font-size:1.05em; font-weight:700; color:var(--cream); margin-top:24px;">Bacteria</p>
+        <p style="color:#c5bfaf; font-style:italic;">grow the lowest-energy compute substrate known.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== SLIDE 21: Q&A ============== -->
+<section class="dark" data-background-color="#0D5556">
+  <div style="height:80vh; display:flex; flex-direction:column; justify-content:center;">
+    <h1 style="font-size:5em; color:var(--highlight); margin:0;">Questions?</h1>
+    <p style="font-family:Georgia; font-size:1.6em; font-style:italic; color:var(--cream); margin-top:20px;">Take this and run with it.</p>
+
+    <div style="background:var(--cream); border:2px solid var(--highlight); border-radius:8px; padding:24px 30px; margin-top:40px; text-align:center;">
+      <p class="mono" style="font-size:1.5em; font-weight:700; color:var(--teal); margin:0;">github.com/consigcody94/ai-energy-frontiers</p>
+    </div>
+    <p style="font-size:0.85em; font-style:italic; color:#c5bfaf; margin-top:24px; text-align:center;">
+      MIT licensed. 4 subprojects. 112 tests passing. Real BOMs. Real protocols.
+    </p>
+
+    <div style="text-align:center; margin-top:40px;">
+      <p style="font-weight:700; color:var(--cream); margin:0;">Cody Churchwell</p>
+      <p style="font-size:0.85em; font-style:italic; color:#c5bfaf; margin:4px 0 0;">AI Energy Frontiers · 2026</p>
+    </div>
+  </div>
+</section>
+
+</div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/plugin/notes/notes.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: 'c/t',
+    controls: true,
+    progress: true,
+    transition: 'fade',
+    width: 1280,
+    height: 720,
+    margin: 0.04,
+    plugins: [ RevealNotes ]
+  });
+</script>
+</body>
+</html>
