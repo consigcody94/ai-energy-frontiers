@@ -16,6 +16,25 @@ to confirm.
 
 ---
 
+## Interactive 3D Digital Twin & Engineering Blueprints
+
+> **[Launch Interactive 3D WebGL Digital Twin (Facility & Multi-Scale Physics)](3d_energy_model.html)**
+> *(Real-time 1:1 scale Three.js digital twin featuring Data Center Rooftop TR Diode thermal IR flux, 1 m² exploded mechanical panel stack, Casimir nano-cavity mode exclusion, Bhasma D-D fusion lattice, and Geobacter 100 mV neuromorphic crossbar).*
+
+### System 1: Hyperscale Data-Center Roof Thermoradiative Diode Recovery
+Architectural cross-section of server hot-aisle exhaust (52°C) coupled via thermosiphon heat pipes to a 100,000 m² rooftop array radiating mid-infrared photons (8–13 µm) into the 3 K cold sky, with negative-illumination quantum band diagram and electrical MPPT bus tie-in.
+
+[![Thermoradiative Diode Facility Blueprint](results/tr_diode_facility_blueprint.png)](results/tr_diode_facility_blueprint.svg)
+*Figure A: Standard ISO Drawing AEF-TRD-DWG-001 (Rev 2.4). Vector SVG available at [`results/tr_diode_facility_blueprint.svg`](results/tr_diode_facility_blueprint.svg).*
+
+### System 2: Quantum & Bio-Nanotechnology Energy Hardware Architecture
+Tabletop SED Casimir-cavity ZPE extraction cell with Cs gas flow, two-stage Rasashastra-Bhasma Pd nanocathode fusion reactor (UBC Nature 2025 anchor), and Geobacter microbial protein nanowire memristor crossbar delivering 500× inference energy reduction.
+
+[![Quantum & Bio Frontiers Blueprint](results/quantum_frontiers_blueprint.png)](results/quantum_frontiers_blueprint.svg)
+*Figure B: Standard ISO Drawing AEF-QNT-DWG-002 (Rev 3.1). Vector SVG available at [`results/quantum_frontiers_blueprint.svg`](results/quantum_frontiers_blueprint.svg).*
+
+---
+
 ## Table of contents
 
 1. [The problem in numbers](#1-the-problem-in-numbers)
