@@ -18,6 +18,14 @@ to confirm.
 
 ## Interactive 3D Digital Twin & Engineering Blueprints
 
+### 3D Physical Simulation: Thermoradiative Negative-Illumination Heat Engine
+A photoreal 3D WebGL physics simulation built with [AirsupHQ/machine-skill](https://github.com/AirsupHQ/machine-skill) embodying negative-illumination radiative cooling to 3 K deep sky:
+
+> **[Launch Interactive 3D WebGL Simulation](https://consigcody94.github.io/scientific-anatomy/machines/tr-diode-engine.html)** · *(Local: [`docs/machines/tr-diode-engine.html`](docs/machines/tr-diode-engine.html))*
+
+[![Thermoradiative Diode Engine](docs/machines/tr-diode-review.png)](https://consigcody94.github.io/scientific-anatomy/machines/tr-diode-engine.html)
+*Figure: The Thermoradiative Diode Engine. 88 machined components across 9 procedural PBR materials with real-time Stefan-Boltzmann radiative transfer solver. Supports interactive orbit, raymarched section cutaway (C key), exploded assembly view (E key), x-ray casing (X key), and vacuum seal breach simulation (B key).*
+
 > **[Launch Interactive 3D WebGL Digital Twin (Facility & Multi-Scale Physics)](3d_energy_model.html)**
 > *(Real-time 1:1 scale Three.js digital twin featuring Data Center Rooftop TR Diode thermal IR flux, 1 m² exploded mechanical panel stack, Casimir nano-cavity mode exclusion, Bhasma D-D fusion lattice, and Geobacter 100 mV neuromorphic crossbar).*
 
